@@ -3,842 +3,1350 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>ALE Results</title>
-<link rel="icon" type="image/x-icon" href="/favicon.ico">
-<link rel="icon" type="image/png" href="/favicon.png">
+<title>ALE Results — Więcej Klientów. Przewidywalnie.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
 :root{
-  --blue:#2563eb;--blue-light:#3b82f6;
-  --dark:#0f0f0f;--dark-2:#1a1a1a;--dark-3:#252525;
+  --ink:#09090b;
+  --ink-2:#111113;
+  --ink-3:#18181b;
+  --surface:#1f1f23;
+  --line:rgba(255,255,255,0.07);
   --white:#ffffff;
-  --font-display:'Barlow Condensed',sans-serif;
-  --font-body:'Barlow',sans-serif;
+  --off:#a1a1aa;
+  --dim:#52525b;
+  --gold:#e8c96b;
+  --gold-dim:rgba(232,201,107,0.12);
+  --gold-line:rgba(232,201,107,0.3);
+  --accent:#f4f4f5;
+  --font-display:'Syne',sans-serif;
+  --font-body:'DM Sans',sans-serif;
+  --radius:6px;
+  --max:1160px;
 }
-html{scroll-behavior:smooth}
-body{font-family:var(--font-body);background:var(--dark);color:var(--white);line-height:1.6;overflow-x:hidden}
 
-.page{display:none}
-.page.active{display:block}
+html{scroll-behavior:smooth;font-size:16px;scroll-padding-top:76px}
+body{
+  font-family:var(--font-body);
+  background:var(--ink);
+  color:var(--white);
+  line-height:1.6;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
 
+/* ─── NOISE OVERLAY ─── */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;opacity:0.35;
+}
+
+/* ─── NAV ─── */
 nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  height:68px;
   display:flex;align-items:center;justify-content:space-between;
-  padding:0 5%;height:72px;
-  background:rgba(15,15,15,0.95);
-  border-bottom:1px solid rgba(255,255,255,0.06);
-  backdrop-filter:blur(8px);
+  padding:0 5%;
+  background:rgba(9,9,11,0.85);
+  border-bottom:1px solid var(--line);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
 }
-.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--white);cursor:pointer;transition:opacity 0.2s}
-.nav-logo:hover{opacity:0.8}
-.nav-logo-box{
-  width:40px;height:40px;border:2px solid var(--white);
+.nav-brand{
+  display:flex;align-items:center;gap:14px;
+  text-decoration:none;color:var(--white);cursor:pointer;
+}
+.nav-logomark{
+  width:36px;height:36px;
+  border:1.5px solid var(--gold);
   display:flex;align-items:center;justify-content:center;
-  font-family:var(--font-display);font-size:14px;font-weight:900;letter-spacing:1px;
+  font-family:var(--font-display);font-size:12px;font-weight:800;
+  letter-spacing:1px;color:var(--gold);
 }
-.nav-logo-text{font-family:var(--font-display);font-size:20px;font-weight:700;letter-spacing:1px}
-.nav-links{display:flex;gap:40px;list-style:none}
-.nav-links a{color:rgba(255,255,255,0.7);text-decoration:none;font-size:15px;font-weight:500;cursor:pointer;transition:color 0.2s}
-.nav-links a:hover,.nav-links a.active{color:var(--white)}
-.nav-cta{
-  background:var(--blue);color:var(--white);padding:10px 22px;
-  border-radius:4px;font-weight:600;font-size:14px;
-  text-decoration:none;border:none;cursor:pointer;font-family:var(--font-body);
-  transition:background 0.2s,transform 0.15s;
+.nav-name{
+  font-family:var(--font-display);font-size:17px;font-weight:700;
+  letter-spacing:0.5px;
 }
-.nav-cta:hover{background:var(--blue-light);transform:translateY(-2px)}
+.nav-links{display:flex;gap:36px;list-style:none;align-items:center}
+.nav-links a{
+  color:var(--off);font-size:14px;font-weight:400;
+  text-decoration:none;cursor:pointer;
+  transition:color 0.2s;letter-spacing:0.2px;
+}
+.nav-links a:hover{color:var(--white)}
+.nav-pill{
+  background:var(--gold);color:var(--ink);
+  padding:9px 22px;border-radius:100px;
+  font-family:var(--font-display);font-size:13px;font-weight:700;
+  letter-spacing:0.5px;border:none;cursor:pointer;
+  transition:opacity 0.2s,transform 0.15s;
+  text-transform:uppercase;
+}
+.nav-pill:hover{opacity:0.88;transform:translateY(-1px)}
 
-.mobile-menu-btn{
-  display:none;background:none;border:none;color:var(--white);
-  font-size:24px;cursor:pointer;padding:8px;transition:transform 0.3s;
+/* Mobile nav */
+.hamburger{
+  display:none;flex-direction:column;gap:5px;
+  background:none;border:none;cursor:pointer;padding:4px;
 }
-.mobile-menu-btn.active{transform:rotate(90deg)}
-
-.mobile-menu{
-  display:none;position:fixed;top:72px;right:0;width:100%;max-width:320px;
-  background:rgba(15,15,15,0.98);border-left:1px solid rgba(59,130,246,0.2);
-  flex-direction:column;gap:0;padding:0;z-index:99;
-  backdrop-filter:blur(8px);
-  animation:slideInRight 0.3s ease;
-  box-shadow:-4px 0 16px rgba(0,0,0,0.3);
+.hamburger span{
+  display:block;width:22px;height:1.5px;
+  background:var(--white);transition:all 0.3s;
 }
-.mobile-menu.active{display:flex}
-
-@keyframes slideInRight{
-  from{transform:translateX(100%);opacity:0}
-  to{transform:translateX(0);opacity:1}
+.hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+.mobile-drawer{
+  display:none;position:fixed;
+  top:68px;left:0;right:0;
+  background:rgba(9,9,11,0.97);
+  border-bottom:1px solid var(--line);
+  padding:28px 5% 36px;
+  flex-direction:column;gap:0;
+  z-index:199;backdrop-filter:blur(14px);
+  animation:drawerIn 0.25s ease;
 }
-
-.mobile-menu a{
-  color:rgba(255,255,255,0.7);text-decoration:none;font-size:16px;cursor:pointer;
-  transition:all 0.2s;padding:16px 20px;border-bottom:1px solid rgba(255,255,255,0.05);
-  display:flex;align-items:center;gap:12px;font-weight:500;
+.mobile-drawer.open{display:flex}
+@keyframes drawerIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.mobile-drawer a{
+  color:var(--off);font-size:17px;font-weight:400;
+  text-decoration:none;cursor:pointer;
+  padding:14px 0;border-bottom:1px solid var(--line);
+  transition:color 0.2s;
 }
-.mobile-menu a:hover,.mobile-menu a.active{
-  color:var(--white);background:rgba(37,99,235,0.08);border-left:3px solid var(--blue);
-  padding-left:17px;
+.mobile-drawer a:hover{color:var(--white)}
+.mobile-drawer .mob-cta{
+  margin-top:24px;background:var(--gold);color:var(--ink);
+  padding:14px;border-radius:100px;border:none;cursor:pointer;
+  font-family:var(--font-display);font-size:15px;font-weight:700;
+  letter-spacing:0.5px;text-transform:uppercase;width:100%;
 }
-.mobile-menu a::before{
-  content:'';width:8px;height:8px;border-radius:50%;
-  background:var(--blue);opacity:0;transition:opacity 0.2s;
-}
-.mobile-menu a:hover::before,.mobile-menu a.active::before{opacity:1}
-.mobile-menu-cta{
-  padding:16px 20px;background:rgba(37,99,235,0.12);border-top:1px solid rgba(59,130,246,0.2);
-  margin-top:auto;
-}
-.mobile-menu-cta .btn-primary{width:100%;padding:12px 16px;font-size:14px}
-
-@media(max-width:1024px){
-  .nav-links{display:none}
-  .nav-cta{display:none}
-  .mobile-menu-btn{display:block}
+@media(max-width:900px){
+  .nav-links,.nav-pill{display:none}
+  .hamburger{display:flex}
 }
 
+/* ─── HERO ─── */
 .hero{
-  min-height:100vh;display:flex;align-items:center;justify-content:center;
-  text-align:center;padding:100px 5% 60px;
-  background:radial-gradient(ellipse at 50% 40%,rgba(37,99,235,0.13) 0%,transparent 70%),var(--dark);
+  position:relative;
+  min-height:100vh;
+  min-height:100dvh;
+  display:flex;align-items:center;justify-content:center;
+  padding:120px 5% 80px;
+  overflow:hidden;
+  text-align:center;
 }
-.hero-eyebrow{font-size:16px;color:rgba(255,255,255,0.55);margin-bottom:16px}
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 20%, rgba(232,201,107,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 80% 80%, rgba(232,201,107,0.04) 0%, transparent 50%),
+    var(--ink);
+  z-index:0;
+}
+.hero-grid-lines{
+  position:absolute;inset:0;z-index:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size:80px 80px;
+  mask-image:radial-gradient(ellipse 80% 70% at 50% 50%, black 0%, transparent 75%);
+}
+.hero-inner{position:relative;z-index:1;max-width:820px;margin:0 auto}
+.hero-kicker{
+  display:inline-flex;align-items:center;gap:10px;
+  border:1px solid var(--gold-line);
+  background:var(--gold-dim);
+  color:var(--gold);
+  font-size:12px;font-weight:500;letter-spacing:2px;text-transform:uppercase;
+  padding:7px 18px;border-radius:100px;margin-bottom:32px;
+  animation:fadeUp 0.7s ease both;
+}
+.hero-kicker::before{
+  content:'';width:6px;height:6px;border-radius:50%;
+  background:var(--gold);flex-shrink:0;
+}
 .hero h1{
-  font-family:var(--font-display);font-size:clamp(60px,10vw,110px);
-  font-weight:900;line-height:0.92;letter-spacing:-1px;text-transform:uppercase;margin-bottom:24px;
+  font-family:var(--font-display);
+  font-size:clamp(52px,9vw,96px);
+  font-weight:800;
+  line-height:0.95;
+  letter-spacing:-2px;
+  text-transform:uppercase;
+  margin-bottom:28px;
+  animation:fadeUp 0.7s 0.1s ease both;
 }
-.hero h1 .accent{color:var(--blue-light)}
-.hero-sub{font-size:18px;color:rgba(255,255,255,0.6);max-width:480px;margin:0 auto 40px;line-height:1.65}
-.btn-primary{
-  display:inline-block;background:var(--blue);color:var(--white);
-  padding:16px 48px;border-radius:4px;
-  font-family:var(--font-display);font-size:18px;font-weight:700;
-  letter-spacing:2px;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;
-  transition:background 0.2s,transform 0.15s;
+.hero h1 em{
+  font-style:normal;
+  color:transparent;
+  -webkit-text-stroke:1.5px var(--gold);
 }
-.btn-primary:hover{background:var(--blue-light);transform:translateY(-2px)}
+.hero-sub{
+  font-size:clamp(16px,2vw,19px);
+  color:var(--off);
+  max-width:520px;
+  margin:0 auto 48px;
+  font-weight:300;
+  line-height:1.75;
+  animation:fadeUp 0.7s 0.2s ease both;
+}
+.hero-sub strong{color:var(--white);font-weight:500}
+.hero-actions{
+  display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;
+  animation:fadeUp 0.7s 0.3s ease both;
+}
+.btn-gold{
+  background:var(--gold);color:var(--ink);
+  padding:16px 38px;border-radius:100px;
+  font-family:var(--font-display);font-size:15px;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;border:none;cursor:pointer;
+  transition:opacity 0.2s,transform 0.15s;
+  display:inline-flex;align-items:center;gap:10px;
+}
+.btn-gold:hover{opacity:0.88;transform:translateY(-2px)}
+.btn-ghost{
+  background:none;border:1px solid rgba(255,255,255,0.15);color:var(--off);
+  padding:16px 32px;border-radius:100px;
+  font-family:var(--font-display);font-size:15px;font-weight:600;
+  letter-spacing:0.5px;text-transform:uppercase;cursor:pointer;
+  transition:border-color 0.2s,color 0.2s;
+}
+.btn-ghost:hover{border-color:rgba(255,255,255,0.4);color:var(--white)}
+.hero-trust{
+  display:flex;align-items:center;justify-content:center;gap:32px;
+  margin-top:64px;flex-wrap:wrap;
+  animation:fadeUp 0.7s 0.4s ease both;
+}
+.hero-trust-item{
+  display:flex;align-items:center;gap:10px;
+  font-size:13px;color:var(--dim);font-weight:400;
+}
+.hero-trust-item svg{flex-shrink:0;opacity:0.5}
+.hero-trust-sep{width:1px;height:20px;background:var(--line)}
 
-section{padding:80px 5%}
-.section-tag{
-  display:inline-block;border:1px solid rgba(255,255,255,0.2);
-  color:rgba(255,255,255,0.55);font-size:12px;letter-spacing:2px;text-transform:uppercase;
-  padding:6px 16px;border-radius:100px;margin-bottom:20px;
+/* ─── MARQUEE ─── */
+.marquee-strip{
+  overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:18px 0;background:var(--ink-2);position:relative;z-index:1;
+}
+.marquee-track{
+  display:flex;white-space:nowrap;
+  animation:marquee 30s linear infinite;
+}
+.marquee-item{
+  display:inline-flex;align-items:center;gap:12px;
+  padding:0 32px;
+  font-family:var(--font-display);font-size:12px;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;color:var(--dim);
+}
+.marquee-dot{width:4px;height:4px;border-radius:50%;background:var(--gold);flex-shrink:0}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ─── SECTIONS COMMON ─── */
+section{position:relative;z-index:1}
+.container{max-width:var(--max);margin:0 auto;padding:0 5%}
+.section-label{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:20px;
+}
+.section-label::before{content:'';width:20px;height:1px;background:var(--gold)}
+
+/* ─── PROBLEM / EMPATHY ─── */
+.empathy{padding:100px 0;background:var(--ink-2)}
+.empathy-inner{
+  max-width:780px;margin:0 auto;text-align:center;padding:0 5%;
+}
+.empathy h2{
+  font-family:var(--font-display);
+  font-size:clamp(34px,5vw,54px);
+  font-weight:800;line-height:1.1;
+  letter-spacing:-1px;
+  text-transform:uppercase;
+  margin-bottom:32px;
+}
+.empathy h2 span{color:var(--gold)}
+.empathy-body{text-align:left;max-width:620px;margin:0 auto 40px}
+.empathy-body p{
+  font-size:17px;color:var(--off);font-weight:300;
+  line-height:1.85;margin-bottom:18px;
+}
+.empathy-body p strong{color:var(--white);font-weight:500}
+.empathy-body p .gold{color:var(--gold);font-weight:500}
+.empathy-divider{
+  width:48px;height:2px;background:var(--gold);
+  margin:0 auto 32px;border-radius:2px;
 }
 
-.dear-section{background:var(--dark-2)}
-.dear-inner{max-width:640px;margin:0 auto}
-.dear-inner p{font-size:17px;color:rgba(255,255,255,0.78);margin-bottom:18px;line-height:1.8}
-.dear-inner p strong{color:var(--white)}
-.highlight{color:var(--blue-light);font-weight:600;text-decoration:underline;text-underline-offset:3px}
-.btn-secondary{
-  display:inline-block;border:1px solid var(--blue);color:var(--blue-light);
-  padding:12px 32px;border-radius:4px;
-  font-family:var(--font-display);font-size:16px;font-weight:700;
-  letter-spacing:2px;text-transform:uppercase;text-decoration:none;
-  background:none;cursor:pointer;margin-top:12px;transition:background 0.2s,color 0.2s;
+/* ─── HOW IT WORKS ─── */
+.process{padding:100px 0;background:var(--ink)}
+.process-header{text-align:center;margin-bottom:72px}
+.process-header h2{
+  font-family:var(--font-display);
+  font-size:clamp(34px,5vw,54px);font-weight:800;
+  text-transform:uppercase;letter-spacing:-1px;line-height:1.1;
 }
-.btn-secondary:hover{background:var(--blue);color:var(--white)}
+.process-steps{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:2px;
+  background:var(--line);
+  border:1px solid var(--line);
+  border-radius:12px;
+  overflow:hidden;
+}
+.process-step{
+  background:var(--ink-2);
+  padding:48px 36px;
+  position:relative;
+  transition:background 0.3s;
+}
+.process-step:hover{background:var(--ink-3)}
+.step-num{
+  font-family:var(--font-display);
+  font-size:72px;font-weight:800;
+  color:rgba(232,201,107,0.08);
+  line-height:1;
+  margin-bottom:20px;
+  letter-spacing:-3px;
+}
+.step-icon{
+  width:44px;height:44px;
+  border:1px solid var(--gold-line);
+  background:var(--gold-dim);
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:20px;
+}
+.step-icon svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.process-step h3{
+  font-family:var(--font-display);font-size:20px;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;
+}
+.process-step p{font-size:14px;color:var(--off);line-height:1.75;font-weight:300}
+.step-connector{
+  position:absolute;top:48px;right:-1px;
+  width:24px;height:44px;
+  display:flex;align-items:center;justify-content:center;
+  z-index:2;
+}
 
-.why-section{background:var(--dark);text-align:center}
-.why-section h2{
-  font-family:var(--font-display);font-size:clamp(40px,6vw,64px);
-  font-weight:900;text-transform:uppercase;letter-spacing:1px;margin-bottom:60px;
+/* ─── WHY US ─── */
+.why{padding:100px 0;background:var(--ink-2)}
+.why-layout{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:64px;align-items:center;
 }
-.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;max-width:900px;margin:0 auto 50px}
+.why-left h2{
+  font-family:var(--font-display);
+  font-size:clamp(36px,5vw,56px);font-weight:800;
+  text-transform:uppercase;letter-spacing:-1px;line-height:1.0;
+  margin-bottom:28px;
+}
+.why-left h2 span{color:var(--gold)}
+.why-left p{font-size:16px;color:var(--off);font-weight:300;line-height:1.8;margin-bottom:32px}
+.why-list{list-style:none;display:flex;flex-direction:column;gap:16px}
+.why-list li{
+  display:flex;align-items:flex-start;gap:14px;
+  font-size:15px;color:var(--off);font-weight:300;line-height:1.65;
+}
+.why-list li::before{
+  content:'';flex-shrink:0;
+  width:18px;height:18px;
+  border-radius:50%;background:var(--gold-dim);border:1px solid var(--gold-line);
+  margin-top:3px;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='2,5.5 4.2,7.8 8,3' stroke='%23e8c96b' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:center;
+}
+.why-list li strong{color:var(--white);font-weight:500}
+.why-right{display:flex;flex-direction:column;gap:16px}
 .why-card{
-  background:var(--dark-3);border:1px solid rgba(255,255,255,0.07);
-  border-radius:8px;padding:40px 28px;text-align:center;
-  transition:border-color 0.2s,transform 0.2s;
+  background:var(--ink-3);border:1px solid var(--line);
+  border-radius:10px;padding:28px 28px 28px 24px;
+  display:flex;gap:20px;align-items:flex-start;
+  transition:border-color 0.25s,transform 0.2s;
+  border-left:3px solid transparent;
 }
-.why-card:hover{border-color:rgba(59,130,246,0.45);transform:translateY(-4px)}
-.why-icon{
-  width:64px;height:64px;border-radius:50%;
-  background:rgba(37,99,235,0.15);border:1px solid rgba(59,130,246,0.3);
-  display:flex;align-items:center;justify-content:center;margin:0 auto 24px;
+.why-card:hover{border-left-color:var(--gold);transform:translateX(4px)}
+.why-card-icon{
+  width:40px;height:40px;flex-shrink:0;
+  background:var(--gold-dim);border:1px solid var(--gold-line);
+  border-radius:8px;display:flex;align-items:center;justify-content:center;
 }
-.why-icon svg{width:28px;height:28px;stroke:var(--blue-light);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.why-card h3{font-family:var(--font-display);font-size:22px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
-.why-card p{font-size:14px;color:rgba(255,255,255,0.6);line-height:1.7}
+.why-card-icon svg{width:18px;height:18px;stroke:var(--gold);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.why-card h3{font-family:var(--font-display);font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px}
+.why-card p{font-size:13px;color:var(--off);font-weight:300;line-height:1.65}
 
-.contact-section{background:var(--dark-2);text-align:center}
-.contact-section h2{
-  font-family:var(--font-display);font-size:clamp(34px,5vw,54px);
-  font-weight:900;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;
+/* ─── RESULTS / SOCIAL PROOF ─── */
+.results{padding:100px 0;background:var(--ink)}
+.results-header{text-align:center;margin-bottom:64px}
+.results-header h2{
+  font-family:var(--font-display);
+  font-size:clamp(34px,5vw,54px);font-weight:800;
+  text-transform:uppercase;letter-spacing:-1px;line-height:1.1;
+  margin-bottom:16px;
 }
-.contact-sub{font-size:15px;color:rgba(255,255,255,0.5);max-width:500px;margin:0 auto 48px;line-height:1.65}
+.results-header p{font-size:16px;color:var(--off);font-weight:300}
+.stats-row{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:2px;background:var(--line);
+  border:1px solid var(--line);border-radius:12px;overflow:hidden;
+  margin-bottom:48px;
+}
+.stat{
+  background:var(--ink-2);
+  padding:40px 28px;text-align:center;
+  transition:background 0.2s;
+}
+.stat:hover{background:var(--ink-3)}
+.stat-num{
+  font-family:var(--font-display);
+  font-size:clamp(38px,5vw,56px);font-weight:800;
+  color:var(--gold);letter-spacing:-2px;
+  line-height:1;margin-bottom:10px;
+}
+.stat-label{font-size:13px;color:var(--off);font-weight:300;line-height:1.5}
+.testimonials{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.testimonial{
+  background:var(--ink-2);border:1px solid var(--line);
+  border-radius:10px;padding:32px;
+  position:relative;
+  transition:border-color 0.25s;
+}
+.testimonial:hover{border-color:var(--gold-line)}
+.testimonial::before{
+  content:'"';
+  position:absolute;top:20px;right:24px;
+  font-family:var(--font-display);font-size:80px;font-weight:800;
+  color:rgba(232,201,107,0.08);line-height:1;
+}
+.testimonial-text{font-size:15px;color:var(--off);font-weight:300;line-height:1.8;margin-bottom:24px;font-style:italic}
+.testimonial-text strong{color:var(--white);font-style:normal;font-weight:500}
+.testimonial-author{display:flex;align-items:center;gap:12px}
+.testimonial-avatar{
+  width:40px;height:40px;border-radius:50%;
+  background:var(--gold-dim);border:1px solid var(--gold-line);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-size:14px;font-weight:700;color:var(--gold);
+  flex-shrink:0;
+}
+.testimonial-name{font-size:14px;font-weight:500}
+.testimonial-role{font-size:12px;color:var(--dim)}
+.stars{color:var(--gold);font-size:13px;margin-bottom:4px;letter-spacing:2px}
+
+/* ─── OFFER ─── */
+.offer{padding:100px 0;background:var(--ink-2)}
+.offer-inner{
+  max-width:860px;margin:0 auto;
+  background:var(--ink-3);border:1px solid var(--line);
+  border-radius:16px;padding:64px;position:relative;overflow:hidden;
+}
+.offer-glow{
+  position:absolute;top:-60px;right:-60px;
+  width:300px;height:300px;
+  background:radial-gradient(circle, rgba(232,201,107,0.08) 0%, transparent 70%);
+  pointer-events:none;
+}
+.offer-inner h2{
+  font-family:var(--font-display);
+  font-size:clamp(30px,4vw,46px);font-weight:800;
+  text-transform:uppercase;letter-spacing:-1px;line-height:1.05;
+  margin-bottom:16px;
+}
+.offer-inner h2 span{color:var(--gold)}
+.offer-sub{font-size:16px;color:var(--off);font-weight:300;line-height:1.8;margin-bottom:40px;max-width:560px}
+.offer-items{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:40px;
+}
+.offer-item{
+  display:flex;align-items:flex-start;gap:12px;
+  background:rgba(255,255,255,0.03);border:1px solid var(--line);
+  border-radius:8px;padding:18px;
+}
+.offer-item-bullet{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--gold);flex-shrink:0;margin-top:6px;
+}
+.offer-item p{font-size:14px;color:var(--off);font-weight:300;line-height:1.6}
+.offer-item p strong{color:var(--white);font-weight:500;display:block;margin-bottom:2px}
+.offer-disclaimer{
+  display:flex;align-items:center;gap:10px;
+  font-size:13px;color:var(--dim);font-weight:300;
+  margin-bottom:32px;
+}
+.offer-disclaimer svg{flex-shrink:0;stroke:var(--gold);fill:none;stroke-width:2;width:16px;height:16px;stroke-linecap:round;stroke-linejoin:round}
+
+/* ─── FAQ ─── */
+.faq{padding:100px 0;background:var(--ink)}
+.faq-layout{max-width:720px;margin:0 auto}
+.faq-header{text-align:center;margin-bottom:48px}
+.faq-header h2{
+  font-family:var(--font-display);
+  font-size:clamp(34px,5vw,50px);font-weight:800;
+  text-transform:uppercase;letter-spacing:-1px;
+}
+.faq-item{
+  border-bottom:1px solid var(--line);
+}
+.faq-question{
+  width:100%;background:none;border:none;color:var(--white);
+  font-family:var(--font-body);font-size:16px;font-weight:500;
+  text-align:left;padding:24px 0;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  transition:color 0.2s;
+}
+.faq-question:hover{color:var(--gold)}
+.faq-question.open{color:var(--gold)}
+.faq-chevron{
+  width:20px;height:20px;flex-shrink:0;
+  stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;
+  transition:transform 0.3s;
+}
+.faq-question.open .faq-chevron{transform:rotate(180deg)}
+.faq-answer{
+  max-height:0;overflow:hidden;
+  transition:max-height 0.35s ease,padding 0.35s ease;
+  font-size:15px;color:var(--off);font-weight:300;line-height:1.8;
+}
+.faq-answer.open{max-height:300px;padding-bottom:24px}
+
+/* ─── CONTACT ─── */
+.contact{
+  padding:100px 0 80px;
+  background:var(--ink-2);
+  position:relative;overflow:hidden;
+}
+.contact-bg{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 50% at 50% 100%, rgba(232,201,107,0.05) 0%, transparent 60%);
+  pointer-events:none;
+}
+.contact-inner{
+  max-width:700px;margin:0 auto;
+  text-align:center;position:relative;z-index:1;
+}
+.contact-inner h2{
+  font-family:var(--font-display);
+  font-size:clamp(36px,6vw,68px);font-weight:800;
+  text-transform:uppercase;letter-spacing:-2px;line-height:0.95;
+  margin-bottom:20px;
+}
+.contact-inner h2 span{
+  color:transparent;-webkit-text-stroke:1.5px var(--gold);
+}
+.contact-sub{font-size:16px;color:var(--off);font-weight:300;line-height:1.75;max-width:480px;margin:0 auto 48px}
 .contact-form{
-  max-width:600px;margin:0 auto;background:var(--dark-3);
-  border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:40px;text-align:left;
+  background:var(--ink-3);border:1px solid var(--line);
+  border-radius:14px;padding:48px;text-align:left;
 }
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
 .form-group{display:flex;flex-direction:column;gap:8px}
-.form-group label{font-size:13px;color:rgba(255,255,255,0.5);font-weight:500;letter-spacing:0.5px}
-.form-group input,.form-group textarea{
-  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);
-  border-radius:4px;color:var(--white);font-family:var(--font-body);font-size:14px;
-  padding:12px 16px;outline:none;transition:border-color 0.2s;width:100%;
+.form-group label{font-size:12px;color:var(--dim);font-weight:500;letter-spacing:1px;text-transform:uppercase}
+.form-group input,.form-group textarea,.form-group select{
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--line);
+  border-radius:var(--radius);color:var(--white);
+  font-family:var(--font-body);font-size:15px;font-weight:300;
+  padding:13px 16px;outline:none;
+  transition:border-color 0.2s,background 0.2s;
+  width:100%;
 }
-.form-group input::placeholder,.form-group textarea::placeholder{color:rgba(255,255,255,0.22)}
-.form-group input:focus,.form-group textarea:focus{border-color:var(--blue)}
-.form-group textarea{resize:vertical;min-height:120px}
+.form-group input::placeholder,.form-group textarea::placeholder{color:var(--dim)}
+.form-group input:focus,.form-group textarea:focus{
+  border-color:var(--gold-line);background:rgba(232,201,107,0.04);
+}
+.form-group textarea{resize:vertical;min-height:110px}
 .form-full{grid-column:1/-1}
 .form-submit{
-  width:100%;background:var(--blue);color:var(--white);border:none;padding:14px;
-  border-radius:4px;font-family:var(--font-display);font-size:17px;font-weight:700;
-  letter-spacing:2px;text-transform:uppercase;cursor:pointer;margin-top:8px;transition:background 0.2s;
+  width:100%;background:var(--gold);color:var(--ink);
+  padding:16px;border-radius:100px;border:none;cursor:pointer;
+  font-family:var(--font-display);font-size:16px;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;
+  transition:opacity 0.2s,transform 0.15s;margin-top:8px;
+  display:flex;align-items:center;justify-content:center;gap:10px;
 }
-.form-submit:hover{background:var(--blue-light)}
+.form-submit:hover{opacity:0.88;transform:translateY(-1px)}
+.form-note{
+  text-align:center;font-size:12px;color:var(--dim);
+  margin-top:16px;font-weight:300;
+}
 
-/* ═══ FOOTER ═══ */
+/* ─── FOOTER ─── */
 footer{
-  background:var(--dark);border-top:1px solid rgba(255,255,255,0.06);
-  padding:32px 5%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;
+  background:var(--ink);
+  border-top:1px solid var(--line);
+  padding:36px 5%;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:20px;
+  position:relative;z-index:1;
 }
-footer p{font-size:13px;color:rgba(255,255,255,0.3)}
-.footer-links{display:flex;gap:24px}
-.footer-links a{font-size:13px;color:rgba(255,255,255,0.3);text-decoration:none;cursor:not-allowed;pointer-events:none}
+.footer-left{display:flex;flex-direction:column;gap:8px}
+.footer-copy{font-size:13px;color:var(--dim);font-weight:300}
+.footer-socials{display:flex;gap:12px;align-items:center}
+.footer-social{
+  display:flex;align-items:center;gap:8px;
+  color:var(--off);font-size:13px;font-weight:400;
+  text-decoration:none;padding:8px 14px;
+  border:1px solid var(--line);border-radius:8px;
+  transition:border-color 0.2s,color 0.2s;cursor:pointer;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  min-width:0;
+}
+.footer-social:hover{border-color:rgba(255,255,255,0.2);color:var(--white)}
+.footer-social svg{width:15px;height:15px;flex-shrink:0}
 
-/* FOOTER CONTACT */
-.footer-contact{
-  display:flex;gap:12px;align-items:center;margin-left:auto;flex-wrap:wrap;
+/* ─── THANKS PAGE ─── */
+.thanks-wrap{
+  display:none;position:fixed;inset:0;z-index:500;
+  background:var(--ink);
+  align-items:center;justify-content:center;
+  text-align:center;padding:5%;
 }
-.footer-contact-link{
-  display:flex;align-items:center;gap:10px;
-  color:rgba(255,255,255,0.65);text-decoration:none;
-  padding:8px 16px 8px 10px;border-radius:10px;
-  border:1px solid rgba(255,255,255,0.09);
-  background:rgba(255,255,255,0.04);
-  transition:all 0.22s ease;cursor:pointer;
-  font-size:14px;font-family:var(--font-body);font-weight:500;
-  letter-spacing:0.2px;
+.thanks-wrap.show{display:flex}
+.thanks-wrap h1{
+  font-family:var(--font-display);
+  font-size:clamp(48px,8vw,88px);font-weight:800;
+  text-transform:uppercase;letter-spacing:-2px;line-height:0.95;
+  margin-bottom:20px;
 }
-.footer-contact-link:hover{
-  color:#fff;background:rgba(41,182,246,0.1);
-  border-color:rgba(41,182,246,0.4);
-  transform:translateY(-2px);
-}
-.footer-contact-text{white-space:nowrap}
+.thanks-wrap h1 span{color:var(--gold)}
+.thanks-wrap p{font-size:17px;color:var(--off);font-weight:300;margin-bottom:40px;max-width:420px;margin-left:auto;margin-right:auto;line-height:1.75}
 
-/* TOAST */
-#copy-toast{
-  position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(16px);
-  background:#1a2436;color:#fff;padding:11px 22px;border-radius:10px;
-  font-size:14px;font-family:var(--font-body);font-weight:500;
-  border:1px solid rgba(41,182,246,0.35);
-  opacity:0;transition:all 0.28s cubic-bezier(0.34,1.56,0.64,1);pointer-events:none;
-  z-index:9999;white-space:nowrap;
+/* ─── TOAST ─── */
+#toast{
+  position:fixed;bottom:28px;left:50%;
+  transform:translateX(-50%) translateY(12px);
+  background:var(--ink-3);color:var(--white);
+  padding:12px 22px;border-radius:10px;
+  font-size:14px;font-weight:400;
+  border:1px solid var(--gold-line);
+  opacity:0;transition:all 0.3s ease;
+  pointer-events:none;z-index:9999;
+  white-space:nowrap;
   display:flex;align-items:center;gap:10px;
 }
-#copy-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.toast-icon{
-  width:20px;height:20px;border-radius:50%;flex-shrink:0;
-  background:rgba(41,182,246,0.18);border:1.5px solid rgba(41,182,246,0.55);
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast-check{
+  width:18px;height:18px;border-radius:50%;flex-shrink:0;
+  background:var(--gold-dim);border:1px solid var(--gold-line);
   display:flex;align-items:center;justify-content:center;
 }
 
-/* RESPONSIVE */
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(24px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.reveal{
+  opacity:0;transform:translateY(30px);
+  transition:opacity 0.7s ease,transform 0.7s ease;
+}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ─── RESPONSIVE ─── */
+
+/* ── Tablet & below (≤900px) ── */
 @media(max-width:900px){
-  .footer-contact{margin-left:0;gap:10px}
-}
-@media(max-width:768px){
-  nav{padding:0 4%}
-  .nav-links{display:none}
-  .why-grid{grid-template-columns:1fr}
+  /* Sections */
+  .empathy,.process,.why,.results,.offer,.faq,.contact{padding:72px 0}
+
+  /* Process */
+  .process-steps{grid-template-columns:1fr}
+  .process-step{padding:36px 28px}
+  .process-header{margin-bottom:48px}
+
+  /* Why */
+  .why-layout{grid-template-columns:1fr;gap:40px}
+  .why-card:hover{transform:none} /* no horizontal shift on touch */
+
+  /* Stats */
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+
+  /* Testimonials */
+  .testimonials{grid-template-columns:1fr}
+
+  /* Offer */
+  .offer-items{grid-template-columns:1fr}
+  .offer-inner{padding:40px 32px}
+
+  /* Contact form */
+  .contact-form{padding:32px 24px}
   .form-row{grid-template-columns:1fr}
-  .contact-form{padding:24px 20px}
-  footer{flex-direction:column;align-items:flex-start;gap:14px}
-  .footer-contact{flex-direction:column;align-items:stretch;gap:8px;width:100%}
-  .footer-contact-link{justify-content:flex-start}
-  .footer-links{flex-wrap:wrap}
+
+  /* Footer */
+  footer{flex-direction:column;align-items:flex-start;gap:24px}
+  .footer-socials{flex-wrap:wrap}
 }
 
-/* BLOG */
-.blog-hero{
-  padding:140px 5% 60px;text-align:center;
-  background:radial-gradient(ellipse at 50% 0%,rgba(37,99,235,0.1) 0%,transparent 60%),var(--dark);
-}
-.blog-hero h1{
-  font-family:var(--font-display);font-size:clamp(52px,8vw,88px);
-  font-weight:900;text-transform:uppercase;letter-spacing:1px;margin-top:12px;
-}
-.blog-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
-  gap:28px;max-width:1100px;margin:0 auto;padding:60px 5%;
-  background:var(--dark);
-}
-.blog-card{
-  background:var(--dark-3);border:1px solid rgba(255,255,255,0.07);
-  border-radius:8px;overflow:hidden;text-decoration:none;color:var(--white);
-  transition:border-color 0.2s,transform 0.2s;display:block;cursor:pointer;
-}
-.blog-card:hover{border-color:rgba(59,130,246,0.4);transform:translateY(-4px)}
-.blog-card-img{
-  width:100%;height:180px;
-  background:linear-gradient(135deg,rgba(37,99,235,0.25),rgba(15,15,15,0.9));
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--font-display);font-size:13px;letter-spacing:3px;
-  color:rgba(255,255,255,0.25);text-transform:uppercase;
-}
-.blog-card-body{padding:24px}
-.blog-card-tag{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--blue-light);margin-bottom:10px;font-weight:600}
-.blog-card-title{font-family:var(--font-display);font-size:22px;font-weight:700;text-transform:uppercase;line-height:1.2;margin-bottom:10px}
-.blog-card-excerpt{font-size:14px;color:rgba(255,255,255,0.5);line-height:1.65}
-.blog-card-date{font-size:12px;color:rgba(255,255,255,0.28);margin-top:16px}
+/* ── Large phone & below (≤640px) ── */
+@media(max-width:640px){
+  /* Sections */
+  .empathy,.process,.why,.results,.offer,.faq,.contact{padding:60px 0}
 
-.post-hero{
-  padding:140px 5% 60px;text-align:center;
-  background:radial-gradient(ellipse at 50% 0%,rgba(37,99,235,0.1) 0%,transparent 60%),var(--dark);
-  border-bottom:1px solid rgba(255,255,255,0.06);
-}
-.post-tag{display:inline-block;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.55);font-size:12px;letter-spacing:2px;text-transform:uppercase;padding:6px 16px;border-radius:100px;margin-bottom:20px}
-.post-hero h1{font-family:var(--font-display);font-size:clamp(36px,6vw,68px);font-weight:900;text-transform:uppercase;line-height:1.05;max-width:800px;margin:0 auto 16px}
-.post-meta{font-size:14px;color:rgba(255,255,255,0.35)}
-.post-body{max-width:720px;margin:0 auto;padding:60px 5%}
-.post-body h2{font-family:var(--font-display);font-size:32px;font-weight:700;text-transform:uppercase;margin:48px 0 16px;color:#fff}
-.post-body p{font-size:17px;color:rgba(255,255,255,0.72);line-height:1.8;margin-bottom:20px}
-.post-body ul{padding-left:24px;margin-bottom:20px}
-.post-body li{font-size:17px;color:rgba(255,255,255,0.72);line-height:1.8;margin-bottom:8px}
-.post-body strong{color:#fff}
-.post-cta{background:rgba(37,99,235,0.1);border:1px solid rgba(59,130,246,0.22);border-radius:8px;padding:32px;text-align:center;margin:48px 0}
-.post-cta p{font-size:18px;color:rgba(255,255,255,0.78);margin-bottom:20px}
-.back-link{display:inline-flex;align-items:center;gap:8px;color:rgba(255,255,255,0.35);text-decoration:none;font-size:14px;margin-bottom:48px;cursor:pointer;background:none;border:none;font-family:var(--font-body);transition:color 0.2s}
-.back-link:hover{color:rgba(255,255,255,0.75)}
+  /* Hero */
+  .hero{padding:100px 5% 60px;min-height:auto}
+  .hero h1{letter-spacing:-1px}
+  .hero-sub{font-size:16px;margin-bottom:36px}
+  .hero-actions{flex-direction:column;align-items:stretch;gap:12px;width:100%;max-width:320px;margin:0 auto}
+  .btn-gold,.btn-ghost{width:100%;justify-content:center;padding:15px 24px;font-size:14px}
+  .hero-trust{margin-top:48px;gap:14px}
 
-.thanks-hero{
-  min-height:100vh;display:flex;align-items:center;justify-content:center;
-  text-align:center;padding:100px 5% 60px;
-  background:radial-gradient(ellipse at 50% 40%,rgba(37,99,235,0.13) 0%,transparent 70%),var(--dark);
+  /* Empathy */
+  .empathy-body p{font-size:15px}
+
+  /* Process */
+  .process-step{padding:28px 20px}
+  .step-num{font-size:56px}
+
+  /* Stats */
+  .stat{padding:28px 16px}
+  .stat-num{letter-spacing:-1px}
+
+  /* Testimonial */
+  .testimonial{padding:24px 20px}
+  .testimonial::before{font-size:60px;top:12px;right:16px}
+
+  /* Offer */
+  .offer-inner{padding:32px 20px}
+  .offer-items{gap:12px}
+
+  /* Contact */
+  .contact-inner h2{letter-spacing:-1px}
+  .contact-form{padding:24px 16px;border-radius:10px}
+
+  /* Footer */
+  .footer-social{font-size:12px;padding:8px 10px}
+  .footer-socials{gap:8px}
 }
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.hero-eyebrow{animation:fadeUp 0.6s ease both}
-.hero h1{animation:fadeUp 0.6s 0.1s ease both}
-.hero-sub{animation:fadeUp 0.6s 0.2s ease both}
-.hero .btn-primary{animation:fadeUp 0.6s 0.3s ease both}
+/* ── Small phone (≤420px) ── */
+@media(max-width:420px){
+  /* Hero */
+  .hero-kicker{font-size:10px;letter-spacing:1.5px;padding:6px 14px}
+  .hero h1{letter-spacing:-0.5px}
+  .hero-trust-sep{display:none}
+  .hero-trust{gap:10px}
+  .hero-trust-item{font-size:12px}
+
+  /* Nav */
+  .nav-name{font-size:15px}
+
+  /* Stats — keep 2-col but tighter */
+  .stats-row{grid-template-columns:1fr 1fr}
+  .stat{padding:24px 12px}
+  .stat-num{font-size:clamp(30px,9vw,44px)}
+  .stat-label{font-size:11px}
+
+  /* Process */
+  .process-step{padding:24px 16px}
+
+  /* Why list */
+  .why-list li{font-size:14px}
+
+  /* Contact */
+  .contact-sub{font-size:15px}
+  .contact-form{padding:20px 14px}
+
+  /* Toast — prevent overflow */
+  #toast{font-size:13px;padding:10px 16px;white-space:normal;text-align:center;width:calc(100% - 32px);left:16px;transform:translateY(12px);border-radius:8px}
+  #toast.show{transform:translateY(0)}
+}
+
+/* ── Prevent iOS input zoom (font-size must be ≥16px) ── */
+@media(max-width:900px){
+  .form-group input,
+  .form-group textarea,
+  .form-group select{font-size:16px}
+}
 </style>
 </head>
 <body>
 
-<div id="copy-toast">
-  <span class="toast-icon">
-    <svg viewBox="0 0 12 12" width="10" height="10" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <polyline points="2,6.5 5,9.5 10,3" stroke="#29b6f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </span>
-  Adres e-mail skopiowany do schowka!
-</div>
-
+<!-- ═══ NAV ═══ -->
 <nav>
-  <div class="nav-logo" onclick="showPage('home')">
-    <div class="nav-logo-box">ALE</div>
-    <span class="nav-logo-text">ALE Results</span>
+  <div class="nav-brand" onclick="navScrollTo('top')">
+    <div class="nav-logomark">ALE</div>
+    <span class="nav-name">ALE Results</span>
   </div>
   <ul class="nav-links">
-    <li><a id="nav-home" class="active" onclick="showPage('home')">Strona Główna</a></li>
-    <li><a id="nav-blog" onclick="showPage('blog')">Blog</a></li>
+    <li><a onclick="navScrollTo('jak-dzialamy')">Jak działamy</a></li>
+    <li><a onclick="navScrollTo('wyniki')">Wyniki</a></li>
+    <li><a onclick="navScrollTo('faq')">FAQ</a></li>
+    <li><a onclick="navScrollTo('kontakt')">Kontakt</a></li>
   </ul>
-  <button class="mobile-menu-btn" id="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
-  <div id="mobile-menu" class="mobile-menu">
-    <a id="nav-home-mobile" class="active" onclick="showPage('home');toggleMobileMenu()">Strona Główna</a>
-    <a id="nav-blog-mobile" onclick="showPage('blog');toggleMobileMenu()">Blog</a>
-    <div class="mobile-menu-cta">
-      <button class="btn-primary" onclick="showPage('home',true);toggleMobileMenu()">Darmowa Konsultacja</button>
-    </div>
-  </div>
-  <button class="nav-cta" onclick="showPage('home',true)">Darmowa Konsultacja</button>
+  <button class="nav-pill" onclick="navScrollTo('kontakt')">Bezpłatna Konsultacja</button>
+  <button class="hamburger" id="ham" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
-<div id="page-home" class="page active">
-  <section class="hero">
-    <div>
-      <p class="hero-eyebrow">Czy jesteś właścicielem firmy i…</p>
-      <h1>Chcesz mieć<br><span class="accent">więcej</span> klientów?</h1>
-      <p class="hero-sub">Z ALE Results rozwiniesz swoją firmę szybciej, bardziej przewidywalnie i bez zbędnego stresu!</p>
-      <button class="btn-primary" onclick="scrollToContact()">Chcę tego</button>
-    </div>
-  </section>
-
-  <section class="dear-section">
-    <div class="dear-inner">
-      <p><strong>Drogi <span class="highlight">Przedsiębiorco</span></strong></p>
-      <p>Rozumiemy cię…</p>
-      <p>Prowadzenie biznesu to nie jest bułka z masłem.</p>
-      <p>Codziennie zastanawiasz się, skąd weźmie się ten następny klient.</p>
-      <p>Marzysz o rozwoju, większych zyskach i choćby odrobinie czasu na życie prywatne, ale jak to osiągnąć, skoro wszystko jest tak niepewne…</p>
-      <p>Jednak my możemy to <span class="highlight">zmienić</span>.</p>
-      <button class="btn-secondary" onclick="scrollToContact()">Kontakt</button>
-    </div>
-  </section>
-
-  <section class="why-section">
-    <span class="section-tag">Co nas wyróżnia</span>
-    <h2>Dlaczego my?</h2>
-    <div class="why-grid">
-      <div class="why-card">
-        <div class="why-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-        <h3>Bez ryzyka</h3>
-        <p>Dla nas marketing to nie dziura bez dna. Nasi klienci mają wyłącznie zyskiwać, a nie tracić, i jesteśmy tego tak pewni, że każdą usługę popieramy gwarancją zwrotu pieniędzy.</p>
-      </div>
-      <div class="why-card">
-        <div class="why-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
-        <h3>Personalne podejście</h3>
-        <p>Nie ma uniwersalnego przepisu na sukces, dlatego dopasowujemy projekty do Twojej sytuacji, nie do gotowego cennika.</p>
-      </div>
-      <div class="why-card">
-        <div class="why-icon"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
-        <h3>Rezultaty</h3>
-        <p>Naszym priorytetem są wyniki. Nie ilości kliknięć czy wyświetleń, liczy się to czy zarabiasz więcej, czy nie.</p>
-      </div>
-    </div>
-    <button class="btn-primary" onclick="scrollToContact()">Zarezerwuj rozmowę wstępną</button>
-  </section>
-
-  <section class="contact-section" id="kontakt">
-    <span class="section-tag">Kontakt</span>
-    <h2>Skontaktuj się z nami</h2>
-    <p class="contact-sub">Odkryj, co możemy dla ciebie zrobić. Wypełnij formularz, a my skontaktujemy się z Tobą. Żadnych zobowiązań, żadnych irytujących taktyk sprzedaży.</p>
-    <form class="contact-form" action="https://formspree.io/f/xdaybzov" method="POST" onsubmit="handleSubmit(event)">
-      <div class="form-row">
-        <div class="form-group">
-          <label>Imię</label>
-          <input type="text" name="name" placeholder="Jan" required/>
-        </div>
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" name="email" placeholder="przyklad@email.com" required/>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Telefon</label>
-          <input type="tel" name="phone" placeholder="np. +48 111 111 111"/>
-        </div>
-        <div class="form-group">
-          <label>Nazwa Firmy</label>
-          <input type="text" name="company" placeholder="Facebook"/>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group form-full">
-          <label>Jaki jest twój problem?</label>
-          <textarea name="message" placeholder="Opisz tutaj swój problem…" required></textarea>
-        </div>
-      </div>
-      <button type="submit" class="form-submit">Wyślij</button>
-    </form>
-  </section>
-
-  <footer>
-    <div class="nav-logo" onclick="showPage('home')">
-      <div class="nav-logo-box">ALE</div>
-      <span class="nav-logo-text">ALE Results</span>
-    </div>
-    <p>© 2026 ALE Results. Wszelkie prawa zastrzeżone.</p>
-    <div class="footer-links"><a>Cookies</a><a>Polityka prywatności</a></div>
-    <div class="footer-contact">
-      <a href="mailto:szymon@aleresults.com" class="footer-contact-link" onclick="copyEmail(event)">
-        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" width="28" height="28" style="flex-shrink:0">
-          <circle cx="16" cy="16" r="16" fill="#29b6f6"/>
-          <rect x="7" y="10.5" width="18" height="11" rx="1.5" fill="white"/>
-          <polyline points="7,10.5 16,18 25,10.5" stroke="#29b6f6" stroke-width="2" fill="none" stroke-linejoin="round"/>
-          <line x1="7" y1="21.5" x2="12.5" y2="16.2" stroke="#29b6f6" stroke-width="1.6"/>
-          <line x1="25" y1="21.5" x2="19.5" y2="16.2" stroke="#29b6f6" stroke-width="1.6"/>
-        </svg>
-        <span class="footer-contact-text">szymon@aleresults.com</span>
-      </a>
-      <a href="https://www.instagram.com/aleresults/" target="_blank" rel="noopener" class="footer-contact-link">
-        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" width="28" height="28" style="flex-shrink:0">
-          <rect width="32" height="32" rx="8" fill="#29b6f6"/>
-          <rect x="8" y="8" width="16" height="16" rx="5" stroke="white" stroke-width="2.5" fill="none"/>
-          <circle cx="16" cy="16" r="4" stroke="white" stroke-width="2.5" fill="none"/>
-          <circle cx="21.5" cy="10.5" r="1.5" fill="white"/>
-        </svg>
-        <span class="footer-contact-text">aleresults</span>
-      </a>
-    </div>
-  </footer>
+<div class="mobile-drawer" id="drawer">
+  <a onclick="navScrollTo('jak-dzialamy');toggleMenu()">Jak działamy</a>
+  <a onclick="navScrollTo('wyniki');toggleMenu()">Wyniki</a>
+  <a onclick="navScrollTo('faq');toggleMenu()">FAQ</a>
+  <a onclick="navScrollTo('kontakt');toggleMenu()">Kontakt</a>
+  <button class="mob-cta" onclick="navScrollTo('kontakt');toggleMenu()">Bezpłatna Konsultacja →</button>
 </div>
 
-<div id="page-blog" class="page">
-  <div class="blog-hero">
-    <span class="section-tag">Wiedza</span>
-    <h1>Blog</h1>
-  </div>
-  <div class="blog-grid">
-    <div class="blog-card" onclick="showPage('post1')">
-      <div class="blog-card-img">ALE Results</div>
-      <div class="blog-card-body">
-        <p class="blog-card-tag">Marketing</p>
-        <h2 class="blog-card-title">Przestań tracić klientów przez ten prosty błąd</h2>
-        <p class="blog-card-excerpt">Jeden prosty błąd sprawia, że Twoje kampanie reklamowe nigdy nie przyniosą zysku. Nauczę cię jak go naprawić.</p>
-        <p class="blog-card-date">15 marca 2026</p>
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="top">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="hero-inner">
+    <span class="hero-kicker">Agencja marketingowa · Warszawa</span>
+    <h1>Więcej klientów.<br>Każdego <em>miesiąca.</em></h1>
+    <p class="hero-sub">
+      Budujesz świetny biznes, ale klientów wciąż za mało?
+      Pomagamy właścicielom firm zdobywać <strong>przewidywalny, regularny strumień nowych klientów</strong> — bez zgadywania i bez przepalania budżetu.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-gold" onclick="navScrollTo('kontakt')">
+        Umów bezpłatną konsultację
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+      <button class="btn-ghost" onclick="navScrollTo('jak-dzialamy')">Zobacz jak działamy</button>
+    </div>
+    <div class="hero-trust">
+      <div class="hero-trust-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Gwarancja zwrotu pieniędzy
+      </div>
+      <div class="hero-trust-sep"></div>
+      <div class="hero-trust-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+        Płacisz za wyniki, nie za czas
+      </div>
+      <div class="hero-trust-sep"></div>
+      <div class="hero-trust-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Pierwsze wyniki już po 2–3 tygodniach
       </div>
     </div>
-    <div class="blog-card" onclick="showPage('post2')">
-      <div class="blog-card-img">ALE Results</div>
-      <div class="blog-card-body">
-        <p class="blog-card-tag">Wycena</p>
-        <h2 class="blog-card-title">Jak Podnieść Ceny i Nie Stracić Klientów</h2>
-        <p class="blog-card-excerpt">Odkryj jak najlepsze firmy sprzedają po wyższych cenach i przyciągają lepszych klientów.</p>
-        <p class="blog-card-date">10 lutego 2026</p>
+  </div>
+</section>
+
+<!-- ═══ MARQUEE ═══ -->
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <span class="marquee-item"><span class="marquee-dot"></span>Meta Ads</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Lead Generation</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Copywriting</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Strategia Sprzedaży</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Reklama Płatna</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Optymalizacja Konwersji</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Lejki Sprzedażowe</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Skalowanie Biznesu</span>
+    <!-- duplicate for seamless loop -->
+    <span class="marquee-item"><span class="marquee-dot"></span>Meta Ads</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Lead Generation</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Copywriting</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Strategia Sprzedaży</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Reklama Płatna</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Optymalizacja Konwersji</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Lejki Sprzedażowe</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Skalowanie Biznesu</span>
+  </div>
+</div>
+
+<!-- ═══ EMPATHY ═══ -->
+<section class="empathy">
+  <div class="empathy-inner reveal">
+    <span class="section-label">Rozumiemy cię</span>
+    <h2>Twój biznes zasługuje<br>na <span>więcej</span>.</h2>
+    <div class="empathy-divider"></div>
+    <div class="empathy-body">
+      <p>Codziennie wstajesz i dajesz z siebie wszystko. Twój produkt lub usługa są naprawdę dobre — i o tym wiesz. A mimo to miesiąc w miesiąc zadajesz sobie to samo pytanie:</p>
+      <p><strong>„Skąd wziąć następnego klienta?"</strong></p>
+      <p>Próbowałeś już różnych rzeczy. Może social media, może polecenia, może nawet reklamy. Coś działało przez chwilę, potem przestawało. Cały czas czujesz, że brakuje ci jednej, <span class="gold">powtarzalnej metody</span>, która po prostu działa.</p>
+      <p>Nie potrzebujesz kolejnej teorii ani kursów. Potrzebujesz partnera, który weźmie odpowiedzialność za wyniki i dostarczy ci klientów — <strong>regularnie, przewidywalnie, miesiąc po miesiącu.</strong></p>
+    </div>
+    <button class="btn-gold" onclick="navScrollTo('kontakt')">Chcę regularnych klientów</button>
+  </div>
+</section>
+
+<!-- ═══ HOW IT WORKS ═══ -->
+<section class="process" id="jak-dzialamy">
+  <div class="container">
+    <div class="process-header reveal">
+      <span class="section-label">Jak działamy</span>
+      <h2>Prosty proces.<br>Mierzalne wyniki.</h2>
+    </div>
+    <div class="process-steps reveal">
+      <div class="process-step">
+        <div class="step-num">01</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        </div>
+        <h3>Rozmowa wstępna</h3>
+        <p>Zaczynamy od bezpłatnej rozmowy, żeby poznać twój biznes, branżę i cele. Sprawdzamy wspólnie, czy możemy ci realnie pomóc — bez owijania w bawełnę i bez presji sprzedażowej.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">02</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        </div>
+        <h3>Strategia i oferta</h3>
+        <p>Na podstawie twoich danych budujemy spersonalizowaną strategię i ofertę nie do odrzucenia — taką, która wyróżnia cię na tle konkurencji i uzasadnia wyższe ceny.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">03</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+        </div>
+        <h3>Kampania i skalowanie</h3>
+        <p>Uruchamiamy kampanie reklamowe, testujemy kreacje, optymalizujemy i skalujemy to, co przynosi wyniki. Ty skupiasz się na obsłudze klientów — my dbamy o ich ciągły napływ.</p>
       </div>
     </div>
   </div>
-  <footer>
-    <div class="nav-logo" onclick="showPage('home')">
-      <div class="nav-logo-box">ALE</div>
-      <span class="nav-logo-text">ALE Results</span>
-    </div>
-    <p>© 2026 ALE Results. Wszelkie prawa zastrzeżone.</p>
-    <div class="footer-links"><a>Cookies</a><a>Polityka prywatności</a></div>
-    <div class="footer-contact">
-      <a href="mailto:szymon@aleresults.com" class="footer-contact-link" onclick="copyEmail(event)">
-        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" width="28" height="28" style="flex-shrink:0">
-          <circle cx="16" cy="16" r="16" fill="#29b6f6"/>
-          <rect x="7" y="10.5" width="18" height="11" rx="1.5" fill="white"/>
-          <polyline points="7,10.5 16,18 25,10.5" stroke="#29b6f6" stroke-width="2" fill="none" stroke-linejoin="round"/>
-          <line x1="7" y1="21.5" x2="12.5" y2="16.2" stroke="#29b6f6" stroke-width="1.6"/>
-          <line x1="25" y1="21.5" x2="19.5" y2="16.2" stroke="#29b6f6" stroke-width="1.6"/>
-        </svg>
-        <span class="footer-contact-text">szymon@aleresults.com</span>
-      </a>
-      <a href="https://www.instagram.com/aleresults/" target="_blank" rel="noopener" class="footer-contact-link">
-        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" width="28" height="28" style="flex-shrink:0">
-          <rect width="32" height="32" rx="8" fill="#29b6f6"/>
-          <rect x="8" y="8" width="16" height="16" rx="5" stroke="white" stroke-width="2.5" fill="none"/>
-          <circle cx="16" cy="16" r="4" stroke="white" stroke-width="2.5" fill="none"/>
-          <circle cx="21.5" cy="10.5" r="1.5" fill="white"/>
-        </svg>
-        <span class="footer-contact-text">aleresults</span>
-      </a>
-    </div>
-  </footer>
-</div>
+</section>
 
-<div id="page-post1" class="page">
-  <div class="post-hero">
-    <span class="post-tag">Marketing</span>
-    <h1>Przestań tracić klientów przez ten prosty błąd</h1>
-    <p class="post-meta">15 marca 2026 &nbsp;·&nbsp; ALE Results</p>
-  </div>
-  <article class="post-body">
-    <button class="back-link" onclick="showPage('blog')">← Wróć do bloga</button>
-    <p>Większość firm reklamując swoje usługi, popełnia ten jeden prosty błąd. Ten jeden magiczny błąd sprawia, że ich kampanie reklamowe nigdy nie będą przynosiły zysku, a klienci nawet nie doczytają do końca reklamy.</p>
-    <p>A najlepsze jest to, że aby go naprawić, wystarczy tylko przepisać jedno zdanie.</p>
-    <h2>O jaki błąd chodzi?</h2>
-    <p>W tym artykule wyjaśnię ci, na czym polega ten prosty błąd, oraz jak go błyskawicznie naprawić, tak aby zdobywanie nowych klientów nigdy nie było problemem.</p>
-    <h2>Historia mojego pierwszego klienta</h2>
-    <p>Aby lepiej wytłumaczyć, na czym polega ten błąd, cofnę się do czasu kiedy zaczynałem swoją przygodę z marketingiem.</p>
-    <p>Moim pierwszym klientem była lokalna firma zajmująca się serwisem i sprzedażą elektroniki. Mieli problem z napisaniem reklamy na Facebooka, która faktycznie by im się opłacała i przynosiła zyski.</p>
-    <p>Testowali wiele różnych reklam, ale za każdym razem rezultaty były te same. Przed decyzją o poddaniu się z tą formą reklam, zgłosili się do mnie o pomoc.</p>
-    <p>Gdy pierwszy raz zobaczyłem ich reklamy, nie minęło długo, zanim znalazłem rozwiązanie do 90% ich problemów.</p>
-    <h2>Zagadka rozwiązana</h2>
-    <p>Rzecz, która hamowała potencjał ich reklamy, znajdowała się w samym początku reklamy… dosłownie.</p>
-    <p>Ich problemem było <strong>pierwsze zdanie. Inaczej nagłówek.</strong></p>
-    <p>Przez to, że ich nagłówek był źle napisany, prawie nikt nie czytał ich reklamy do końca. A co za tym idzie, pieniądze włożone w tę reklamę poszły w błoto przez JEDNO ZDANIE.</p>
-    <h2>Czym jest nagłówek?</h2>
-    <p>Nagłówek jest najważniejszą częścią reklamy — bez niego klient nawet nie przeczyta reszty. Jego zadaniem jest zatrzymanie uwagi i zainteresowanie czytelnika tak, aby chciał przeczytać całą reklamę.</p>
-    <p>Reklama może być napisana najlepiej na świecie, ale gdy nagłówek będzie słaby, nikt od ciebie nie kupi.</p>
-    <h2>Jak napisać dobry nagłówek?</h2>
-    <p>Najprostszym sposobem na napisanie nagłówka jest zadanie sobie pytania:</p>
-    <p><strong>"Dlaczego powinno mnie to obchodzić?"</strong></p>
-    <p>Najłatwiej będzie mi to wytłumaczyć na przykładzie słabo napisanego nagłówka:</p>
-    <p><em>"Zapraszamy do [Nazwa Firmy]. W tym tygodniu 15% taniej!"</em></p>
-    <p>Ten nagłówek nie daje czytelnikowi żadnego powodu na przeczytanie dalej. Bo dlaczego miałby?</p>
-    <ul>
-      <li>Nie oferuje on żadnej usługi</li>
-      <li>Nie oferuje rozwiązania problemu klienta</li>
-    </ul>
-    <p>Po prostu nic nie wnosi.</p>
-    <h2>Nagłówek powinien zainteresować</h2>
-    <p>Nagłówek powinien pokazać czytelnikowi, dlaczego warto czytać dalej, dlaczego powinno go to interesować. Podanie nazwy swojej firmy w tym nie pomoże.</p>
-    <h2>Przykłady dobrych nagłówków</h2>
-    <p>Klucz tkwi w prostocie. Oto przykłady dobrych nagłówków:</p>
-    <ul>
-      <li>„Pozbądź się zmarszczek oraz odmłódź swoją twarz o 3 lata!"</li>
-      <li>„Zmniejsz rachunek za prąd o 50%"</li>
-      <li>„Szukasz nowego domu?"</li>
-    </ul>
-    <p>Częstym błędem jest napisanie go zbyt formalnym, skomplikowanym językiem. Należy się trzymać od tego z daleka, ponieważ komplikując język, często brzmi się jak robot. A póki sprzedajemy swoje usługi ludziom, a nie robotom, zostańmy przy prostym, czytelnym języku.</p>
-    <h2>Dlaczego te nagłówki działają?</h2>
-    <p>Są to dobre nagłówki, ponieważ osoba, do której kierujemy reklamę (potencjalny klient), od razu wie, że to o niego chodzi i że reklama go dotyczy.</p>
-    <p>Te nagłówki zatrzymują uwagę czytelnika i zainteresują go na tyle, aby przeczytał resztę reklamy. Bo dokładnie taka jest jego rola!</p>
-    <div class="post-cta">
-      <p>Chcesz, aby Twoja reklama była lepsza od większości konkurencji i nie była hamowana przez pierwsze zdanie? Skontaktuj się z nami — sprawdzimy Twoją reklamę za darmo.</p>
-      <button class="btn-primary" onclick="showPage('home',true)">Umów bezpłatną konsultację</button>
-    </div>
-  </article>
-  <footer>
-    <div class="nav-logo" onclick="showPage('home')"><div class="nav-logo-box">ALE</div><span class="nav-logo-text">ALE Results</span></div>
-    <p>© 2026 ALE Results. Wszelkie prawa zastrzeżone.</p>
-    <div class="footer-links"><a>Cookies</a><a>Polityka prywatności</a></div>
-    <div class="footer-contact">
-      <a href="mailto:szymon@aleresults.com" class="footer-contact-link" onclick="copyEmail(event)">
-        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" width="28" height="28" style="flex-shrink:0">
-          <circle cx="16" cy="16" r="16" fill="#29b6f6"/>
-          <rect x="7" y="10.5" width="18" height="11" rx="1.5" fill="white"/>
-          <polyline points="7,10.5 16,18 25,10.5" stroke="#29b6f6" stroke-width="2" fill="none" stroke-linejoin="round"/>
-          <line x1="7" y1="21.5" x2="12.5" y2="16.2" stroke="#29b6f6" stroke-width="1.6"/>
-          <line x1="25" y1="21.5" x2="19.5" y2="16.2" stroke="#29b6f6" stroke-width="1.6"/>
-        </svg>
-        <span class="footer-contact-text">szymon@aleresults.com</span>
-      </a>
-      <a href="https://www.instagram.com/aleresults/" target="_blank" rel="noopener" class="footer-contact-link">
-        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" width="28" height="28" style="flex-shrink:0">
-          <rect width="32" height="32" rx="8" fill="#29b6f6"/>
-          <rect x="8" y="8" width="16" height="16" rx="5" stroke="white" stroke-width="2.5" fill="none"/>
-          <circle cx="16" cy="16" r="4" stroke="white" stroke-width="2.5" fill="none"/>
-          <circle cx="21.5" cy="10.5" r="1.5" fill="white"/>
-        </svg>
-        <span class="footer-contact-text">aleresults</span>
-      </a>
-    </div>
-  </footer>
-</div>
-
-<div id="page-post2" class="page">
-  <div class="post-hero">
-    <span class="post-tag">Wycena</span>
-    <h1>Jak Podnieść Ceny i Nie Stracić Klientów</h1>
-    <p class="post-meta">10 lutego 2026 &nbsp;·&nbsp; ALE Results</p>
-  </div>
-  <article class="post-body">
-    <button class="back-link" onclick="showPage('blog')">← Wróć do bloga</button>
-    <p>Dlaczego niektóre firmy mogą sprzedawać po znacznie wyższych cenach, a przy tym mieć więcej klientów niż ich tańsza konkurencja? W tym artykule odpowiem na to pytanie i pokażę ci, jak zbudować ofertę, która pozwoli ci podnieść ceny i nie stracić przy tym klientów.</p>
-    <h2>Wyścig na dno — niebezpieczna taktyka</h2>
-    <p>Większość przedsiębiorców, gdy chce wygrać z konkurencją, stosuje jedną taktykę:</p>
-    <p><em>"Dajmy niżej niż oni, teraz klienci na pewno kupią od nas!"</em></p>
-    <p>Na pierwszy rzut oka wydaje się, że ta taktyka działa — odzyskujemy pozycję i znowu zaczynamy sprzedawać. Jednak to tylko złudzenie.</p>
-    <p>Ja nazywam taką strategię <strong>wyścigiem na dno</strong>.</p>
-    <h2>Dlaczego obniżka cen to pułapka?</h2>
-    <p>Po pierwsze, banalnie jest ją przebić. Jeśli konkurencja obniży ceny bardziej niż ty, to co wtedy? Stać cię na kolejną obniżkę? A potem następną… Raczej nie.</p>
-    <p>A nawet jeśli — kto chciałby tak kroić swoje zarobki?</p>
-    <p>Druga sprawa: klienci, których przyciągasz w ten sposób, to osoby, którym zależy wyłącznie na cenie. Nie na jakości, nie na obsłudze, nie na efekcie końcowym. Takie osoby będą narzekać, dopóki twój produkt nie będzie za darmo.</p>
-    <h2>Ale przecież „w Polsce kupują na cenie"!</h2>
-    <p>To dlaczego co druga osoba na mieście nosi koszulkę Tommy'ego albo Guess'a, skoro mogą kupić podobną za 20 zł?</p>
-    <p>No właśnie.</p>
-    <p>To nie kwestia ceny — to kwestia <strong>postrzeganej wartości</strong>.</p>
-    <h2>Dlaczego powinieneś mieć wysokie ceny?</h2>
-    <p>Pieniądze są paliwem napędowym Twojej firmy. Nie mówię tu o kredytach czy pożyczkach. Mam na myśli to, co zostaje ci po każdej sprzedaży — inaczej zysk brutto.</p>
-    <p>Na przykładzie: sprzedam kubek za 10 zł, produkcja kosztuje mnie 4 zł, mój zysk brutto to 60% — 6 zł.</p>
-    <p>Im wyższy procent zysku brutto, tym szybciej rozwijasz swoją firmę. Tym więcej pieniędzy masz na koniec miesiąca, a to daje ci możliwość:</p>
-    <ul>
-      <li>Kupienia lepszego sprzętu</li>
-      <li>Zatrudnienia bardziej kompetentnych ludzi</li>
-      <li>Zwiększenia budżetu marketingowego</li>
-    </ul>
-    <p>Te trzy rzeczy gwarantują sukces, ponieważ prowadzą do ulepszania twojej firmy, produktu i usługi.</p>
-    <h2>Co się dzieje, gdy podwyższysz ceny?</h2>
-    <p>Gdy podwyższysz swoje ceny, sprawiasz, że:</p>
-    <ul>
-      <li>Klient jest bardziej zaangażowany emocjonalnie</li>
-      <li>Klient bardziej ceni twój produkt</li>
-      <li>Klient bardziej chce wykorzystać produkt, co przekłada się na lepsze rezultaty</li>
-      <li>Przyciągasz najlepszych klientów, których najprościej zadowolić, kosztują mniej i bardziej cenią Ciebie oraz wartość twojego produktu</li>
-    </ul>
-    <h2>Jak sprzedawać po wyższych cenach?</h2>
-    <p>To, co oddziela biznes będący w stanie wycisnąć maksymalną cenę na kliencie, a biznes ledwo łączący koniec z końcem… to <strong>oferta</strong>.</p>
-    <p>Na rynku są ich dwa rodzaje:</p>
-    <ul>
-      <li><strong>Oferta towarowa (95%)</strong> — bazuje na średniej cenie za dany produkt lub usługę (instalacja fotowoltaiki, ubezpieczenie, chleb). Klient postrzega ją jako „im niższa cena, tym bardziej wartościowy produkt". Z racji że ma 100 podobnych do porównania.</li>
-      <li><strong>Oferta nie do odrzucenia (5%)</strong> — skupia się na przekazaniu jak największej wartości. Łączy atrakcyjną promocję, świetną propozycję wartości, niepodważalną gwarancję i cenę premium. Przez to jest nieporównywalna do jakiejkolwiek innej oferty na rynku. Jeśli taką masz, sprzedajesz bez konkurencji!</li>
-    </ul>
-    <h2>Przykłady ofert nie do odrzucenia</h2>
-    <p><strong>1. Fotowoltaika:</strong></p>
-    <ul>
-      <li>Zainstalujemy fotowoltaikę w 2 dni</li>
-      <li>Jeśli twój rachunek za prąd nie zmniejszy się, to zapłacimy ci różnicę</li>
-      <li>Dożywotnia gwarancja na panele</li>
-      <li>2 darmowe mycia paneli w pierwszym roku</li>
-    </ul>
-    <p><strong>2. Marketing:</strong></p>
-    <ul>
-      <li>5 nowych klientów każdego miesiąca, albo zwrot pieniędzy</li>
-      <li>Wygenerujemy leady i wypracujemy je dla Ciebie — wizyty będziesz mieć w kalendarzu</li>
-      <li>Dostaniesz video kurs i cotygodniowe treningi sprzedaży dla Twoich pracowników</li>
-      <li>Pomożemy ci stworzyć ofertę nie do odrzucenia</li>
-    </ul>
-    <p><strong>3. Siłownia:</strong></p>
-    <ul>
-      <li>Zamrożenie karnetu w razie wyjazdu lub urazu</li>
-      <li>Darmowa woda na każdy trening</li>
-      <li>Analiza ciała + kompletnie darmowy plan treningowy stworzony wraz z trenerem</li>
-      <li>Przypominajki, aby nie zapomnieć o treningu</li>
-    </ul>
-    <h2>Zainspiruj się i stwórz własną ofertę</h2>
-    <p>Zainspiruj się tymi przykładami i stwórz własną ofertę nie do odrzucenia. Pamiętaj o atrakcyjnej promocji, ogromnej wartości, cenie premium i niepodważalnej gwarancji.</p>
-    <p><strong>Pamiętaj: cena premium musi być uzasadniona.</strong></p>
-    <p>Napakuj swoją ofertę taką ilością wartości dla klienta, że aż TOBIE będzie głupio, gdy mu jej nie sprzedasz, bo tyle traci.</p>
-    <div class="post-cta">
-      <p>Gdybyś potrzebował pomocy z tworzeniem tej oferty lub zwiększaniem swoich cen, odezwij się do nas.</p>
-      <button class="btn-primary" onclick="showPage('home',true)">Umów bezpłatną konsultację</button>
-    </div>
-  </article>
-  <footer>
-    <div class="nav-logo" onclick="showPage('home')"><div class="nav-logo-box">ALE</div><span class="nav-logo-text">ALE Results</span></div>
-    <p>© 2026 ALE Results. Wszelkie prawa zastrzeżone.</p>
-    <div class="footer-links"><a>Cookies</a><a>Polityka prywatności</a></div>
-    <div class="footer-contact">
-      <a href="mailto:szymon@aleresults.com" class="footer-contact-link" onclick="copyEmail(event)">
-        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" width="28" height="28" style="flex-shrink:0">
-          <circle cx="16" cy="16" r="16" fill="#29b6f6"/>
-          <rect x="7" y="10.5" width="18" height="11" rx="1.5" fill="white"/>
-          <polyline points="7,10.5 16,18 25,10.5" stroke="#29b6f6" stroke-width="2" fill="none" stroke-linejoin="round"/>
-          <line x1="7" y1="21.5" x2="12.5" y2="16.2" stroke="#29b6f6" stroke-width="1.6"/>
-          <line x1="25" y1="21.5" x2="19.5" y2="16.2" stroke="#29b6f6" stroke-width="1.6"/>
-        </svg>
-        <span class="footer-contact-text">szymon@aleresults.com</span>
-      </a>
-      <a href="https://www.instagram.com/aleresults/" target="_blank" rel="noopener" class="footer-contact-link">
-        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" width="28" height="28" style="flex-shrink:0">
-          <rect width="32" height="32" rx="8" fill="#29b6f6"/>
-          <rect x="8" y="8" width="16" height="16" rx="5" stroke="white" stroke-width="2.5" fill="none"/>
-          <circle cx="16" cy="16" r="4" stroke="white" stroke-width="2.5" fill="none"/>
-          <circle cx="21.5" cy="10.5" r="1.5" fill="white"/>
-        </svg>
-        <span class="footer-contact-text">aleresults</span>
-      </a>
-    </div>
-  </footer>
-</div>
-
-<div id="page-thanks" class="page">
-  <div class="thanks-hero">
-    <div>
-      <p class="hero-eyebrow">Wiadomość wysłana!</p>
-      <h1 style="font-family:var(--font-display);font-size:clamp(60px,10vw,110px);font-weight:900;line-height:0.92;letter-spacing:-1px;text-transform:uppercase;margin-bottom:24px">
-        Dziękujemy<br><span class="accent">za kontakt</span>
-      </h1>
-      <p class="hero-sub">Skontaktujemy się z Tobą tak szybko jak to możliwe. Do usłyszenia!</p>
-      <button class="btn-primary" onclick="showPage('home')">Wróć na stronę główną</button>
+<!-- ═══ WHY US ═══ -->
+<section class="why">
+  <div class="container">
+    <div class="why-layout">
+      <div class="why-left reveal">
+        <span class="section-label">Dlaczego my</span>
+        <h2>Nie jesteśmy<br><span>kolejną</span><br>agencją.</h2>
+        <p>Większość agencji mówi o kliknięciach, zasięgach i wyświetleniach. My mówimy o jednej rzeczy — czy zarabiasz więcej.</p>
+        <ul class="why-list">
+          <li><strong>Gwarancja zwrotu pieniędzy.</strong> Jesteśmy tak pewni naszych wyników, że każdą współpracę popieramy gwarancją. Ty nie ryzykujesz nic.</li>
+          <li><strong>Personalne podejście.</strong> Nie ma gotowych szablonów. Strategię budujemy od zera, dopasowaną do twojej branży i sytuacji.</li>
+          <li><strong>Myślimy jak właściciele.</strong> Marketing to dla nas nie koszt — to inwestycja, która musi się zwrócić.</li>
+          <li><strong>Pełna transparentność.</strong> Wiesz za co płacisz, widzisz wyniki na żywo i zawsze możesz zapytać o wszystko.</li>
+        </ul>
+      </div>
+      <div class="why-right reveal">
+        <div class="why-card">
+          <div class="why-card-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <h3>Zero ryzyka</h3>
+            <p>Gwarantujemy wyniki lub oddajemy pieniądze. To jedyna sprawiedliwa umowa.</p>
+          </div>
+        </div>
+        <div class="why-card">
+          <div class="why-card-icon">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+          <div>
+            <h3>Skupiamy się na ROI</h3>
+            <p>Kliknięcia i zasięgi nic nie znaczą. Liczy się to, ile zarabiasz na każdej złotówce wydanej na reklamę.</p>
+          </div>
+        </div>
+        <div class="why-card">
+          <div class="why-card-icon">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div>
+            <h3>Partnerstwo, nie kontrakt</h3>
+            <p>Twój sukces to nasz sukces. Traktujemy każdego klienta jak własny biznes — z pełnym zaangażowaniem.</p>
+          </div>
+        </div>
+        <div class="why-card">
+          <div class="why-card-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <h3>Szybki start</h3>
+            <p>Pierwsze kampanie uruchamiamy w ciągu 7–10 dni od podpisania umowy. Pierwsze wyniki widać po 2–3 tygodniach.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <footer>
-    <div class="nav-logo" onclick="showPage('home')"><div class="nav-logo-box">ALE</div><span class="nav-logo-text">ALE Results</span></div>
-    <p>© 2026 ALE Results. Wszelkie prawa zastrzeżone.</p>
-    <div class="footer-links"><a>Cookies</a><a>Polityka prywatności</a></div>
-    <div class="footer-contact">
-      <a href="mailto:szymon@aleresults.com" class="footer-contact-link" onclick="copyEmail(event)">
-        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" width="28" height="28" style="flex-shrink:0">
-          <circle cx="16" cy="16" r="16" fill="#29b6f6"/>
-          <rect x="7" y="10.5" width="18" height="11" rx="1.5" fill="white"/>
-          <polyline points="7,10.5 16,18 25,10.5" stroke="#29b6f6" stroke-width="2" fill="none" stroke-linejoin="round"/>
-          <line x1="7" y1="21.5" x2="12.5" y2="16.2" stroke="#29b6f6" stroke-width="1.6"/>
-          <line x1="25" y1="21.5" x2="19.5" y2="16.2" stroke="#29b6f6" stroke-width="1.6"/>
-        </svg>
-        <span class="footer-contact-text">szymon@aleresults.com</span>
-      </a>
-      <a href="https://www.instagram.com/aleresults/" target="_blank" rel="noopener" class="footer-contact-link">
-        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" width="28" height="28" style="flex-shrink:0">
-          <rect width="32" height="32" rx="8" fill="#29b6f6"/>
-          <rect x="8" y="8" width="16" height="16" rx="5" stroke="white" stroke-width="2.5" fill="none"/>
-          <circle cx="16" cy="16" r="4" stroke="white" stroke-width="2.5" fill="none"/>
-          <circle cx="21.5" cy="10.5" r="1.5" fill="white"/>
-        </svg>
-        <span class="footer-contact-text">aleresults</span>
-      </a>
+</section>
+
+<!-- ═══ RESULTS ═══ -->
+<section class="results" id="wyniki">
+  <div class="container">
+    <div class="results-header reveal">
+      <span class="section-label">Wyniki</span>
+      <h2>Liczby mówią<br>same za siebie.</h2>
+      <p>Efekty, które osiągamy dla naszych klientów — w liczbach.</p>
     </div>
-  </footer>
+    <div class="stats-row reveal">
+      <div class="stat">
+        <div class="stat-num">3.8×</div>
+        <div class="stat-label">Średni zwrot<br>z inwestycji w reklamy</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">+47%</div>
+        <div class="stat-label">Wzrost przychodów<br>w ciągu 90 dni</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">312</div>
+        <div class="stat-label">Leadów wygenerowanych<br>dla jednego klienta</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Klientów objętych<br>naszą gwarancją</div>
+      </div>
+    </div>
+    <div class="testimonials reveal">
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">Przed współpracą z ALE Results mieliśmy problem z pozyskiwaniem nowych pacjentów na zabiegi premium. Po 6 tygodniach kampanii mieliśmy <strong>pełny grafik na 3 miesiące do przodu</strong>. To był game changer dla naszej kliniki.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">MK</div>
+          <div>
+            <div class="testimonial-name">Marek K.</div>
+            <div class="testimonial-role">Właściciel kliniki stomatologicznej, Kraków</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">Sceptycznie podchodziłam do agencji marketingowych — miałam już złe doświadczenia. ALE Results zaskoczył mnie od pierwszego spotkania. Konkret, zero ściemy i <strong>wyniki już w pierwszym miesiącu.</strong> Polecam z całego serca.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">AW</div>
+          <div>
+            <div class="testimonial-name">Anna W.</div>
+            <div class="testimonial-role">Właścicielka gabinetu medycyny estetycznej, Warszawa</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">Zaczęliśmy od jednej kampanii testowej. Wyniki były tak dobre, że po miesiącu podwoiliśmy budżet. Dziś <strong>koszt pozyskania klienta spadł o 40%</strong> w porównaniu do tego, co robiliśmy sami.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">TP</div>
+          <div>
+            <div class="testimonial-name">Tomasz P.</div>
+            <div class="testimonial-role">Właściciel firmy usługowej, Wrocław</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">To co mnie urzekło to podejście — Szymon traktuje twój biznes jak swój własny. <strong>Żadnych zbędnych raportów, tylko konkretne działania i wyniki.</strong> Nareszcie agencja, która mówi wprost co działa, a co nie.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">PD</div>
+          <div>
+            <div class="testimonial-name">Piotr D.</div>
+            <div class="testimonial-role">Właściciel gabinetu implantologii, Gdańsk</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ OFFER ═══ -->
+<section class="offer">
+  <div class="container">
+    <div class="offer-inner reveal">
+      <div class="offer-glow"></div>
+      <span class="section-label">Co dostajesz</span>
+      <h2>Kompletna usługa,<br><span>jeden cel:</span> twój wzrost.</h2>
+      <p class="offer-sub">Nie sprzedajemy reklam. Dostarczamy system, który generuje klientów — od strategii przez kreacje po optymalizację i skalowanie.</p>
+      <div class="offer-items">
+        <div class="offer-item">
+          <div class="offer-item-bullet"></div>
+          <p><strong>Audyt i strategia</strong>Analizujemy twój biznes, konkurencję i grupę docelową. Budujemy plan działania oparty na danych.</p>
+        </div>
+        <div class="offer-item">
+          <div class="offer-item-bullet"></div>
+          <p><strong>Oferta nie do odrzucenia</strong>Pomagamy stworzyć ofertę, która wyróżnia cię od konkurencji i pozwala sprzedawać po wyższych cenach.</p>
+        </div>
+        <div class="offer-item">
+          <div class="offer-item-bullet"></div>
+          <p><strong>Kampanie Meta Ads</strong>Tworzymy, testujemy i skalujemy reklamy na Facebooku i Instagramie z pełną optymalizacją.</p>
+        </div>
+        <div class="offer-item">
+          <div class="offer-item-bullet"></div>
+          <p><strong>Copywriting i kreacje</strong>Piszemy reklamy, które zatrzymują uwagę i skłaniają do działania — nie tylko ładnie wyglądają.</p>
+        </div>
+        <div class="offer-item">
+          <div class="offer-item-bullet"></div>
+          <p><strong>Raportowanie i transparentność</strong>Masz wgląd w wyniki w czasie rzeczywistym. Zawsze wiesz, za co płacisz i co z tego masz.</p>
+        </div>
+        <div class="offer-item">
+          <div class="offer-item-bullet"></div>
+          <p><strong>Wsparcie i optymalizacja</strong>Jesteśmy z tobą przez cały czas — testujemy, uczymy się i ulepszamy kampanie co tydzień.</p>
+        </div>
+      </div>
+      <div class="offer-disclaimer">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Każda współpraca jest wyceniana indywidualnie — dopasowana do twojej branży, skali i celów. Bez ukrytych kosztów.
+      </div>
+      <button class="btn-gold" onclick="navScrollTo('kontakt')">
+        Dowiedz się ile to kosztuje
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FAQ ═══ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="faq-layout">
+      <div class="faq-header reveal">
+        <span class="section-label">FAQ</span>
+        <h2>Masz pytania?<br>Mamy odpowiedzi.</h2>
+      </div>
+      <div class="reveal">
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Jak szybko zobaczę pierwsze wyniki?
+            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-answer">Pierwsze kampanie uruchamiamy w ciągu 7–10 dni od startu współpracy. Pierwsze leady i zapytania zaczynają spływać zwykle po 2–3 tygodniach. Pełną optymalizację i skalowanie osiągamy po 6–8 tygodniach — tyle potrzebują algorytmy Meta, żeby zebrać dane i zoptymalizować wyświetlanie.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Ile muszę mieć budżetu na reklamy?
+            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-answer">Budżet na reklamy ustalamy indywidualnie na podstawie branży, wartości twojej usługi i celów, które chcemy osiągnąć. Budżet reklamowy płacisz bezpośrednio platformie (Facebook/Meta) — my natomiast zarządzamy kampaniami i optymalizujemy każdą wydaną złotówkę.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Czy mogę zrezygnować w każdej chwili?
+            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-answer">Wymagamy minimalnego zobowiązania na 3 miesiące — tyle czasu potrzebujemy, żeby rzetelnie przetestować strategię i dostarczyć mierzalne wyniki. Po tym czasie możesz kontynuować lub zakończyć współpracę — żadnych haczyków, żadnych ukrytych klauzul.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Na czym polega wasza gwarancja?
+            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-answer">Jeśli w uzgodnionym terminie nie dostarczymy wyników, na które się umówiliśmy — zwracamy pieniądze za nasze usługi. Szczegóły gwarancji omawiamy indywidualnie, bo każdy biznes ma inne cele. Jedno jest pewne: nie możesz stracić.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Czy współpracujecie z każdą branżą?
+            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-answer">Nie. Współpracujemy z biznesami, w których możemy faktycznie wygenerować wyniki — głównie usługi premium, wysokie ceny transakcji i konsultacyjny model sprzedaży. Jeśli nie będziemy w stanie ci pomóc, powiemy o tym wprost na pierwszej rozmowie.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Ile czasu zajmuje mi współpraca z ALE Results?
+            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-answer">Staramy się, żeby angażowanie twojego czasu było minimalne. Potrzebujemy go głównie na początku — żeby zebrać informacje o biznesie, zatwierdzić kreacje i strategię. Potem ogarniamy wszystko sami i regularnie informujemy cię o wynikach.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section class="contact" id="kontakt">
+  <div class="contact-bg"></div>
+  <div class="container">
+    <div class="contact-inner reveal">
+      <span class="section-label">Bezpłatna konsultacja</span>
+      <h2>Zacznijmy<br><span>rozmowę.</span></h2>
+      <p class="contact-sub">Wypełnij formularz — odezwiemy się w ciągu 24 godzin i umówimy bezpłatną rozmowę. Żadnych zobowiązań, żadnej presji sprzedażowej.</p>
+      <form class="contact-form" action="https://formspree.io/f/xdaybzov" method="POST" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Imię *</label>
+            <input type="text" name="name" placeholder="Jan" required/>
+          </div>
+          <div class="form-group">
+            <label>Email *</label>
+            <input type="email" name="email" placeholder="jan@firma.pl" required/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Telefon</label>
+            <input type="tel" name="phone" placeholder="+48 500 000 000"/>
+          </div>
+          <div class="form-group">
+            <label>Nazwa Firmy</label>
+            <input type="text" name="company" placeholder="Twoja firma"/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group form-full">
+            <label>Czego potrzebujesz? *</label>
+            <textarea name="message" placeholder="Opisz krótko swój biznes i co chciałbyś osiągnąć — im więcej napiszesz, tym lepiej się przygotujemy…" required></textarea>
+          </div>
+        </div>
+        <button type="submit" class="form-submit">
+          Wyślij i umów rozmowę
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+        <p class="form-note">🔒 Twoje dane są bezpieczne i nigdy nie są udostępniane osobom trzecim.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-left">
+    <div class="nav-brand" onclick="window.scrollTo(0,0)">
+      <div class="nav-logomark">ALE</div>
+      <span class="nav-name">ALE Results</span>
+    </div>
+    <p class="footer-copy">© 2026 ALE Results. Wszelkie prawa zastrzeżone.</p>
+  </div>
+  <div class="footer-socials">
+    <a href="mailto:szymon@aleresults.com" class="footer-social" onclick="copyEmail(event)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      szymon@aleresults.com
+    </a>
+    <a href="https://www.instagram.com/aleresults/" target="_blank" rel="noopener" class="footer-social">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+      @aleresults
+    </a>
+  </div>
+</footer>
+
+<!-- ═══ THANKS OVERLAY ═══ -->
+<div class="thanks-wrap" id="thanks">
+  <div>
+    <span class="hero-kicker" style="margin-bottom:24px">Wiadomość wysłana ✓</span>
+    <h1>Dziękujemy<br><span>za kontakt!</span></h1>
+    <p>Odezwiemy się do ciebie w ciągu 24 godzin i umówimy bezpłatną rozmowę. Do usłyszenia!</p>
+    <button class="btn-gold" onclick="document.getElementById('thanks').classList.remove('show')">Wróć na stronę</button>
+  </div>
+</div>
+
+<!-- ═══ TOAST ═══ -->
+<div id="toast">
+  <span class="toast-check">
+    <svg viewBox="0 0 10 10" width="10" height="10" fill="none">
+      <polyline points="2,5.5 4.2,7.8 8,3" stroke="#e8c96b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </span>
+  Email skopiowany!
 </div>
 
 <script>
-function showPage(id, scrollContact) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('active');
-  window.scrollTo(0, 0);
-  document.getElementById('nav-home').classList.toggle('active', id === 'home');
-  document.getElementById('nav-blog').classList.toggle('active', id === 'blog');
-  document.getElementById('nav-home-mobile').classList.toggle('active', id === 'home');
-  document.getElementById('nav-blog-mobile').classList.toggle('active', id === 'blog');
-  if (scrollContact) {
-    setTimeout(function() {
-      var el = document.getElementById('kontakt');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
+// ─── SCROLL NAV ───
+function navScrollTo(id) {
+  if(id === 'top') { window.scrollTo({top:0,behavior:'smooth'}); return; }
+  const el = document.getElementById(id);
+  if(el) {
+    const offset = 76; // nav height + breathing room
+    const top = el.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({top, behavior:'smooth'});
   }
 }
 
-function toggleMobileMenu() {
-  var menu = document.getElementById('mobile-menu');
-  var btn = document.getElementById('mobile-menu-btn');
-  menu.classList.toggle('active');
-  btn.classList.toggle('active');
+// ─── MOBILE MENU ───
+function toggleMenu() {
+  const ham = document.getElementById('ham');
+  const drawer = document.getElementById('drawer');
+  ham.classList.toggle('open');
+  drawer.classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  const ham = document.getElementById('ham');
+  const drawer = document.getElementById('drawer');
+  const nav = document.querySelector('nav');
+  if(!nav.contains(e.target) && drawer.classList.contains('open')) {
+    ham.classList.remove('open');
+    drawer.classList.remove('open');
+  }
+});
+
+// ─── FAQ ───
+function toggleFaq(btn) {
+  const answer = btn.nextElementSibling;
+  const isOpen = btn.classList.contains('open');
+  document.querySelectorAll('.faq-question').forEach(q => {
+    q.classList.remove('open');
+    q.nextElementSibling.classList.remove('open');
+  });
+  if(!isOpen) {
+    btn.classList.add('open');
+    answer.classList.add('open');
+  }
 }
 
-function scrollToContact() {
-  var el = document.getElementById('kontakt');
-  if (el) el.scrollIntoView({ behavior: 'smooth' });
-}
-
+// ─── FORM ───
 async function handleSubmit(e) {
   e.preventDefault();
-  
   const form = e.target;
-  const data = new FormData(form);
-  
+  const btn = form.querySelector('.form-submit');
+  btn.textContent = 'Wysyłam…';
+  btn.disabled = true;
   try {
-    const response = await fetch(form.action, {
-      method: form.method,
-      body: data,
-      headers: {
-        'Accept': 'application/json'
-      }
+    const res = await fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: {Accept:'application/json'}
     });
-    
-    if (response.ok) {
-      form.reset(); 
-      showPage('thanks'); 
+    if(res.ok) {
+      form.reset();
+      document.getElementById('thanks').classList.add('show');
+      window.scrollTo(0,0);
     } else {
-      alert("Wystąpił problem z wysłaniem wiadomości.");
+      alert('Coś poszło nie tak. Spróbuj ponownie lub napisz bezpośrednio na szymon@aleresults.com');
     }
-  } catch (error) {
-    alert("Wystąpił problem z wysłaniem wiadomości.");
+  } catch(err) {
+    alert('Coś poszło nie tak. Spróbuj ponownie.');
   }
+  btn.innerHTML = 'Wyślij i umów rozmowę <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+  btn.disabled = false;
 }
 
+// ─── EMAIL COPY ───
 function copyEmail(e) {
-  e.preventDefault();
-  var email = 'szymon@aleresults.com';
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(email).then(function() {
-      showToast();
-    }).catch(function() {
-      fallbackCopy(email);
-    });
-  } else {
-    fallbackCopy(email);
-  }
+  // Don't prevent default — let mailto open. Just also copy to clipboard.
+  const email = 'szymon@aleresults.com';
+  if(navigator.clipboard?.writeText) {
+    navigator.clipboard.writeText(email).then(showToast).catch(() => fallbackCopy(email));
+  } else { fallbackCopy(email); }
 }
-
 function fallbackCopy(text) {
-  var ta = document.createElement('textarea');
+  const ta = document.createElement('textarea');
   ta.value = text;
-  ta.style.position = 'fixed';
-  ta.style.opacity = '0';
+  Object.assign(ta.style, {position:'fixed',opacity:'0'});
   document.body.appendChild(ta);
-  ta.focus();
   ta.select();
   try { document.execCommand('copy'); showToast(); } catch(e) {}
   document.body.removeChild(ta);
 }
-
 function showToast() {
-  var toast = document.getElementById('copy-toast');
-  toast.classList.add('show');
-  clearTimeout(window._toastTimer);
-  window._toastTimer = setTimeout(function() {
-    toast.classList.remove('show');
-  }, 2800);
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  clearTimeout(window._tt);
+  window._tt = setTimeout(() => t.classList.remove('show'), 2600);
 }
 
-document.addEventListener('click', function(event) {
-  var nav = document.querySelector('nav');
-  var menu = document.getElementById('mobile-menu');
-  var btn = document.getElementById('mobile-menu-btn');
-  if (!nav.contains(event.target) && menu.classList.contains('active')) {
-    menu.classList.remove('active');
-    btn.classList.remove('active');
-  }
+// ─── SCROLL REVEAL ───
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, {threshold: 0.12, rootMargin: '0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ─── NAV ACTIVE ON SCROLL ───
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  const sections = ['jak-dzialamy','wyniki','faq','kontakt'];
+  let current = '';
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if(el && window.scrollY >= el.offsetTop - 120) current = id;
+  });
+  navLinks.forEach(a => {
+    const fn = a.getAttribute('onclick') || '';
+    if(fn.includes(current) && current) {
+      a.style.color = 'var(--white)';
+    } else {
+      a.style.color = '';
+    }
+  });
 });
 </script>
 </body>
