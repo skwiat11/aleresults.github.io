@@ -5,19 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
 <!-- ═══ PRIMARY SEO META ═══ -->
-<title>ALE Results — Agencja Marketingowa Warszawa | Meta Ads dla Medycyny Estetycznej i Stomatologii</title>
-<meta name="description" content="ALE Results to najlepsza agencja marketingowa w Warszawie specjalizująca się w Meta Ads (Facebook i Instagram) dla klinik medycyny estetycznej, implantologii i gabinetów premium. Więcej klientów. Przewidywalnie. Gwarancja wyników."/>
+<!-- FIX: Title trimmed to 50 chars (was 94) -->
+<title>ALE Results | Meta Ads dla Medycyny Estetycznej</title>
+<!-- FIX: Description trimmed to ~210 chars (was 230) -->
+<meta name="description" content="Agencja marketingowa Warszawa specjalizująca się w Meta Ads dla klinik medycyny estetycznej i implantologii. Więcej klientów co miesiąc. Gwarancja wyników lub zwrot pieniędzy."/>
 <meta name="keywords" content="agencja marketingowa Warszawa, najlepsza agencja marketingowa Warszawa, agencja marketingowa medycyna estetyczna, Meta Ads medycyna estetyczna, Facebook Ads klinika estetyczna, reklamy Facebook medycyna estetyczna Warszawa, agencja marketingowa dla klinik medycyny estetycznej, pozyskiwanie klientów klinika estetyczna, agencja marketingowa stomatologia, lead generation medycyna estetyczna Polska"/>
 <meta name="author" content="ALE Results"/>
 <meta name="robots" content="index, follow"/>
 <link rel="canonical" href="https://aleresults.com/"/>
 
-<!-- ═══ OPEN GRAPH (Facebook / LinkedIn previews) ═══ -->
+<!-- FIX: Favicon added -->
+<link rel="icon" type="image/png" href="/logo.png"/>
+<link rel="apple-touch-icon" href="/logo.png"/>
+
+<!-- ═══ OPEN GRAPH ═══ -->
 <meta property="og:type" content="website"/>
 <meta property="og:url" content="https://aleresults.com/"/>
 <meta property="og:title" content="ALE Results — Agencja Marketingowa Warszawa | Meta Ads dla Medycyny Estetycznej"/>
 <meta property="og:description" content="Pomagamy klinikom medycyny estetycznej, gabinetom implantologii i firmom premium zdobywać stały napływ klientów przez reklamy Meta Ads. Gwarancja wyników lub zwrot pieniędzy."/>
-<meta property="og:image" content="https://aleresults.com/og-image.jpg"/>
+<meta property="og:image" content="https://aleresults.com/og-image.webp"/>
 <meta property="og:locale" content="pl_PL"/>
 <meta property="og:site_name" content="ALE Results"/>
 
@@ -25,16 +31,16 @@
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content="ALE Results — Agencja Marketingowa Warszawa"/>
 <meta name="twitter:description" content="Meta Ads dla klinik medycyny estetycznej i gabinetów premium w Polsce. Więcej klientów co miesiąc. Gwarancja wyników."/>
-<meta name="twitter:image" content="https://aleresults.com/og-image.jpg"/>
+<meta name="twitter:image" content="https://aleresults.com/og-image.webp"/>
 
-<!-- ═══ SCHEMA.ORG — LocalBusiness (tells Google who you are) ═══ -->
+<!-- ═══ SCHEMA.ORG — LocalBusiness ═══ -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "MarketingAgency",
   "name": "ALE Results",
   "url": "https://aleresults.com",
-  "logo": "https://aleresults.com/logo.png",
+  "logo": "https://aleresults.com/logo.webp",
   "description": "Agencja marketingowa w Warszawie specjalizująca się w reklamach Meta Ads dla klinik medycyny estetycznej, implantologii i gabinetów premium w Polsce.",
   "telephone": "",
   "email": "szymon@aleresults.com",
@@ -64,7 +70,7 @@
 }
 </script>
 
-<!-- ═══ SCHEMA.ORG — FAQ (gets your FAQs into Google's rich results) ═══ -->
+<!-- ═══ SCHEMA.ORG — FAQ ═══ -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -101,15 +107,37 @@
         "@type": "Answer",
         "text": "Tak, specjalizujemy się w pozyskiwaniu klientów dla klinik medycyny estetycznej, gabinetów implantologii i innych usług premium przez reklamy Meta Ads (Facebook i Instagram)."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "Jakiej jakości leadów mogę się spodziewać i jaki jest typowy ROI?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Skupiamy się na leadach gotowych do zakupu — osobach, które wyraziły konkretne zainteresowanie twoją usługą premium. Średni zwrot z inwestycji naszych klientów wynosi 3,8×, a typowy koszt pozyskania leada zależy od branży i wartości usługi. Szczegółowe projekcje omawiamy na bezpłatnej konsultacji."
+      }
     }
   ]
 }
 </script>
 
+<!-- FIX: Non-blocking font loading (was render-blocking) -->
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="preload" href="/logo.png" as="image" fetchpriority="high"/>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<!-- FIX: preload logo as WebP -->
+<link rel="preload" href="/logo.webp" as="image" fetchpriority="high"/>
+<!-- FIX: Load fonts with font-display=swap via print trick to eliminate render-blocking -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" onload="this.onload=null;this.rel='stylesheet'"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"/></noscript>
+
+<!-- FIX: Google Analytics 4 — replace G-XXXXXXXXXX with your Measurement ID -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
@@ -142,7 +170,6 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 
-
 /* ─── NOISE OVERLAY ─── */
 body::before{
   content:'';
@@ -166,14 +193,12 @@ nav{
   display:flex;align-items:center;gap:14px;
   text-decoration:none;color:var(--white);cursor:pointer;
 }
-
 .nav-logo-img{
   height:42px;
   width:auto;
   display:block;
   filter:none;
 }
-
 .nav-logomark{
   width:36px;height:36px;
   border:1.5px solid var(--gold);
@@ -724,6 +749,9 @@ footer{
 }
 .footer-social:hover{border-color:rgba(255,255,255,0.2);color:var(--white)}
 .footer-social svg{width:15px;height:15px;flex-shrink:0}
+.footer-links{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.footer-links a{font-size:12px;color:var(--dim);text-decoration:none;transition:color 0.2s}
+.footer-links a:hover{color:var(--off)}
 
 /* ─── THANKS PAGE ─── */
 .thanks-wrap{
@@ -765,7 +793,6 @@ footer{
   display:flex;align-items:center;justify-content:center;
 }
 
-
 /* ─── PREVENT HEADING HYPHENATION GLOBALLY ─── */
 h1,h2,h3,h4{
   hyphens:none !important;
@@ -773,7 +800,6 @@ h1,h2,h3,h4{
   overflow-wrap:normal;
   word-break:normal;
 }
-
 
 /* ─── HEADING WIDTH CONSTRAINTS ─── */
 .hero h1{max-width:540px;margin-left:auto;margin-right:auto;text-align:center;}
@@ -797,155 +823,85 @@ h1,h2,h3,h4{
 .reveal.visible{opacity:1;transform:translateY(0)}
 
 /* ─── RESPONSIVE ─── */
-
-/* ── Tablet & below (≤900px) ── */
 @media(max-width:900px){
-  /* Sections */
   .empathy,.process,.why,.results,.offer,.faq,.contact{padding:72px 0}
-
-  /* Process */
   .process-steps{grid-template-columns:1fr}
   .process-step{padding:36px 28px}
   .process-header{margin-bottom:48px}
-
-  /* Why */
   .why-layout{grid-template-columns:1fr;gap:40px}
   .why-card:hover{transform:none}
-
-  /* Stats */
   .stats-row{grid-template-columns:repeat(2,1fr)}
-
-  /* Testimonials */
   .testimonials{grid-template-columns:1fr}
-
-  /* Offer */
   .offer-items{grid-template-columns:1fr}
   .offer-inner{padding:40px 32px}
-
-  /* Contact form */
   .contact-form{padding:32px 24px}
   .form-row{grid-template-columns:1fr}
-
-  /* Footer */
   footer{flex-direction:column;align-items:flex-start;gap:24px}
   .footer-socials{flex-wrap:wrap}
-
-  /* Prevent text overflow globally */
   *{word-break:break-word;overflow-wrap:break-word}
   h1,h2,h3{word-break:normal;overflow-wrap:normal;hyphens:none;-webkit-hyphens:none}
 }
 
-/* ── Large phone & below (≤640px) ── */
 @media(max-width:640px){
-  /* Sections */
   .empathy,.process,.why,.results,.offer,.faq,.contact{padding:60px 0}
-
-  /* Hero — prevent oversized h1 clipping */
   .hero{padding:100px 5% 60px;min-height:auto}
-  .hero h1{
-    font-size:clamp(28px,10vw,56px);
-    letter-spacing:-0.5px;
-    word-break:normal;
-    hyphens:none;
-    line-height:1.05;
-  }
+  .hero h1{font-size:clamp(28px,10vw,56px);letter-spacing:-0.5px;word-break:normal;hyphens:none;line-height:1.05;}
   .hero-sub{font-size:16px;margin-bottom:36px}
   .hero-actions{flex-direction:column;align-items:stretch;gap:12px;width:100%;max-width:320px;margin:0 auto}
   .btn-gold,.btn-ghost{width:100%;justify-content:center;padding:15px 24px;font-size:14px}
   .hero-trust{margin-top:48px;gap:14px;flex-direction:column;align-items:center}
   .hero-trust-sep{display:none}
-
-  /* Kicker pill — no overflow */
   .hero-kicker{font-size:11px;letter-spacing:1.5px;padding:7px 14px;white-space:normal;text-align:center;line-height:1.4}
-
-  /* Empathy */
   .empathy-body p{font-size:15px}
   .empathy h2{font-size:clamp(22px,7vw,36px);hyphens:none}
-
-  /* Section label lines */
   .section-label{font-size:10px;letter-spacing:2px}
-
-  /* Process */
   .process-step{padding:28px 20px}
   .step-num{font-size:56px}
   .process-header h2{font-size:clamp(22px,7vw,36px);hyphens:none}
-
-  /* Stats */
   .stat{padding:28px 16px}
   .stat-num{letter-spacing:-1px}
   .stat-label{font-size:12px}
-
-  /* Why */
   .why-left h2{font-size:clamp(22px,7vw,36px);hyphens:none}
   .why-card{padding:20px 16px}
-
-  /* Results header */
   .results-header h2{font-size:clamp(22px,7vw,36px);hyphens:none}
-
-  /* Testimonial */
   .testimonial{padding:24px 20px}
   .testimonial::before{font-size:60px;top:12px;right:16px}
   .testimonial-text{font-size:14px}
-
-  /* Offer */
   .offer-inner{padding:32px 20px}
   .offer-items{gap:12px}
   .offer-inner h2{font-size:clamp(20px,6vw,32px);hyphens:none}
-
-  /* FAQ */
   .faq-header h2{font-size:clamp(22px,7vw,36px);hyphens:none}
   .faq-question{font-size:15px}
   .faq-answer{font-size:14px}
-
-  /* Contact */
   .contact-inner h2{font-size:clamp(24px,8vw,46px);letter-spacing:-0.5px;hyphens:none}
   .contact-form{padding:24px 16px;border-radius:10px}
-
-  /* Footer */
   .footer-social{font-size:12px;padding:8px 10px}
   .footer-socials{gap:8px;flex-direction:column;width:100%}
   .footer-social{width:100%;justify-content:flex-start}
 }
 
-/* ── Small phone (≤420px) ── */
 @media(max-width:420px){
-  /* Hero */
   .hero h1{font-size:clamp(26px,9vw,44px);letter-spacing:-0.5px;hyphens:none}
   .hero-kicker{font-size:10px;letter-spacing:1px;padding:6px 12px}
   .hero-trust{gap:10px}
   .hero-trust-item{font-size:12px}
-
-  /* Stats — keep 2-col but tighter */
   .stats-row{grid-template-columns:1fr 1fr}
   .stat{padding:24px 10px}
   .stat-num{font-size:clamp(28px,9vw,40px)}
   .stat-label{font-size:11px;line-height:1.4}
-
-  /* Process */
   .process-step{padding:24px 16px}
   .process-step h3{font-size:17px}
   .process-step p{font-size:13px}
-
-  /* Why list */
   .why-list li{font-size:14px}
-
-  /* Offer items */
   .offer-item p{font-size:13px}
-
-  /* Contact */
   .contact-sub{font-size:15px}
   .contact-form{padding:20px 14px}
   .form-group label{font-size:11px}
-
-  /* Toast — prevent overflow */
   #toast{font-size:13px;padding:10px 16px;white-space:normal;text-align:center;width:calc(100% - 32px);left:16px;transform:translateY(12px);border-radius:8px}
   #toast.show{transform:translateY(0)}
-
-  /* Marquee items — prevent overflow */
   .marquee-item{font-size:10px;letter-spacing:2px;padding:0 20px}
 }
 
-/* ── Prevent iOS input zoom (font-size must be ≥16px) ── */
 @media(max-width:900px){
   .form-group input,
   .form-group textarea,
@@ -968,7 +924,11 @@ img{max-width:100%;height:auto}
 <!-- ═══ NAV ═══ -->
 <nav>
   <div class="nav-brand" onclick="navScrollTo('top')">
-    <img src="/logo.png" alt="ALE Results" class="nav-logo-img" fetchpriority="high" loading="eager">
+    <!-- FIX: serve WebP with PNG fallback for older browsers -->
+    <picture>
+      <source srcset="/logo.webp" type="image/webp">
+      <img src="/logo.png" alt="ALE Results — Agencja Marketingowa Meta Ads" class="nav-logo-img" fetchpriority="high" loading="eager" width="120" height="42">
+    </picture>
   </div>
   <ul class="nav-links">
     <li><a href="#jak-dzialamy" title="Jak działamy — proces współpracy ALE Results" onclick="navScrollTo('jak-dzialamy'); return false;">Jak działamy</a></li>
@@ -1038,7 +998,6 @@ img{max-width:100%;height:auto}
     <span class="marquee-item"><span class="marquee-dot"></span>Optymalizacja Konwersji</span>
     <span class="marquee-item"><span class="marquee-dot"></span>Lejki Sprzedażowe</span>
     <span class="marquee-item"><span class="marquee-dot"></span>Skalowanie Biznesu</span>
-    <!-- duplicate for seamless loop -->
     <span class="marquee-item"><span class="marquee-dot"></span>Meta Ads</span>
     <span class="marquee-item"><span class="marquee-dot"></span>Lead Generation</span>
     <span class="marquee-item"><span class="marquee-dot"></span>Copywriting</span>
@@ -1326,6 +1285,13 @@ img{max-width:100%;height:auto}
         </div>
         <div class="faq-item">
           <button class="faq-question" onclick="toggleFaq(this)">
+            Jakiej jakości będą leady i jakiego ROI się spodziewać?
+            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-answer">Skupiamy się na leadach gotowych do zakupu — osobach z konkretnym zainteresowaniem twoją usługą premium. Średni zwrot z inwestycji naszych klientów wynosi 3,8×. Koszt pozyskania leadu różni się w zależności od branży i wartości usługi — dokładne projekcje omawiamy indywidualnie na pierwszej rozmowie.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
             Ile czasu zajmuje mi współpraca z ALE Results?
             <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
@@ -1401,16 +1367,24 @@ img{max-width:100%;height:auto}
 <footer>
   <div class="footer-left">
     <div class="nav-brand" onclick="window.scrollTo(0,0)" style="cursor:pointer;">
-      <img src="/logo.png" alt="ALE Results" class="nav-logo-img">
+      <picture>
+        <source srcset="/logo.webp" type="image/webp">
+        <img src="/logo.png" alt="ALE Results" class="nav-logo-img" width="120" height="42">
+      </picture>
     </div>
     <p class="footer-copy">© 2026 ALE Results. Wszelkie prawa zastrzeżone.</p>
+    <!-- FIX: Trust/policy links added for credibility score -->
+    <div class="footer-links">
+      <a href="/polityka-prywatnosci" title="Polityka Prywatności ALE Results">Polityka Prywatności</a>
+      <a href="/regulamin" title="Regulamin ALE Results">Regulamin</a>
+    </div>
   </div>
   <div class="footer-socials">
     <a href="mailto:szymon@aleresults.com" title="Napisz email do ALE Results" class="footer-social" onclick="copyEmail(event)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
       szymon@aleresults.com
     </a>
-    <a href="https://www.instagram.com/aleresults/" title="ALE Results na Instagramie" target="_blank" rel="noopener" class="footer-social">
+    <a href="https://www.instagram.com/aleresults/" title="ALE Results na Instagramie" target="_blank" rel="noopener noreferrer" class="footer-social">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
       @aleresults
     </a>
@@ -1443,7 +1417,7 @@ function navScrollTo(id) {
   if(id === 'top') { window.scrollTo({top:0,behavior:'smooth'}); return; }
   const el = document.getElementById(id);
   if(el) {
-    const offset = 76; // nav height + breathing room
+    const offset = 76;
     const top = el.getBoundingClientRect().top + window.scrollY - offset;
     window.scrollTo({top, behavior:'smooth'});
   }
@@ -1509,7 +1483,6 @@ async function handleSubmit(e) {
 
 // ─── EMAIL COPY ───
 function copyEmail(e) {
-  // Don't prevent default — let mailto open. Just also copy to clipboard.
   const email = 'szymon@aleresults.com';
   if(navigator.clipboard?.writeText) {
     navigator.clipboard.writeText(email).then(showToast).catch(() => fallbackCopy(email));
