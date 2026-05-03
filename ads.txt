@@ -1,0 +1,4 @@
+# ads.txt - Authorized Digital Sellers
+# ALE Results - aleresults.com
+# Add your authorized ad network entries below if applicable.
+# Example: google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0
